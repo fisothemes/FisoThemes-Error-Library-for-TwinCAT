@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_ErrorTimestamp" Id="{3006405e-b4c3-05aa-13ca-bc7db81a079f}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'enable_dynamic_creation'}
+{attribute 'no_explicit_call' := 'direct call for this function block is not allowed'}
+FUNCTION_BLOCK FB_ErrorTimestamp IMPLEMENTS I_ErrorTimestamp
+VAR
+	_nTimestamp : ULINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="AsDateTime" Id="{f8abec48-c1cf-0a93-07f7-ae776de09770}">
+      <Declaration><![CDATA[// Retrieves the timestamp as a combined date and time value.
+METHOD AsDateTime : DT // The combined date and time value as a DT (Date and Time).
+VAR_INPUT
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[AsDateTime := TO_DT(THIS^._nTimestamp/1000);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetDate" Id="{8828e0c1-8f04-0d4e-3a6f-d1c9f2a8f29b}">
+      <Declaration><![CDATA[// Retrieves the date part of the timestamp.
+METHOD GetDate : DATE // The date part of the timestamp.
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetDate := TO_DATE(THIS^._nTimestamp/1000);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="GetTimeOfDay" Id="{d08f581d-15b3-093b-15d0-177ad6073580}">
+      <Declaration><![CDATA[// Retrieves the time of day part of the timestamp.
+METHOD GetTimeOfDay : TOD // The time of day part of the timestamp.
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[GetTimeOfDay := TO_TOD(THIS^._nTimestamp MOD 86400000);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Raw" Id="{da7c7bb0-400d-0d20-0daa-990da27b9d05}">
+      <Declaration><![CDATA[// The raw timestamp value which represents the number of milliseconds since Thursday, 1.1.1970 00:00:00.000.
+// [get] Returns the raw timestamp value.
+// [set] Sets the raw timestamp value.
+PROPERTY Raw : ULINT]]></Declaration>
+      <Get Name="Get" Id="{21722fe0-3607-0632-1491-3954b191ad41}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Raw := THIS^._nTimestamp;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{0d1c1a45-8759-0f1c-3890-954be06c6a88}">
+        <Declaration><![CDATA[
+VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[THIS^._nTimestamp := Raw;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+  </POU>
+</TcPlcObject>

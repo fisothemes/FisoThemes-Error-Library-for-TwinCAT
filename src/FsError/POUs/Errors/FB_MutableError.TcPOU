@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_MutableError" Id="{e7ecc5b6-fec6-0044-275b-b52a36f1ed81}" SpecialFunc="None">
+    <Declaration><![CDATA[// Mutable error object. Used to set error object parameters.
+{attribute 'enable_dynamic_creation'}
+{attribute 'no_explicit_call' := 'direct call for this function block is not allowed'}
+FUNCTION_BLOCK FINAL FB_MutableError EXTENDS FB_Error IMPLEMENTS I_MutableError
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="CopyFrom" Id="{8584fea9-54ca-034f-3a51-5f96627ee303}">
+      <Declaration><![CDATA[// Copies the properties from another error instance.
+// This method allows the current mutable error instance to copy the error code,
+// descriptor, message, and timestamp from another error instance, effectively
+// duplicating the state of the provided error instance.
+METHOD CopyFrom : I_MutableError // A reference to the current instance.
+VAR_INPUT
+	ipError : I_Error; // The error instance from which to copy the properties
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CopyFrom := THIS^;
+
+IF ipError = 0 THEN RETURN; END_IF
+
+THIS^._ipDescriptor := ipError.Descriptor;
+THIS^._Code 		:= ipError.Code;
+THIS^._nTimestamp	:= ipError.Timestamp.Raw;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="RaiseError" Id="{895c357f-b179-0599-1232-6d050d025c7b}">
+      <Declaration><![CDATA[// Raises an error with the specified error code.
+METHOD RaiseError  : I_MutableError // A reference to the current instance.
+VAR_INPUT
+    Code : T_ErrorCode; // The error code to raise.
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[RaiseError := THIS^;
+
+THIS^._Code := Code;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetDescriptor" Id="{7cf5b83c-e3ab-0794-0c7e-cf2049dcc476}">
+      <Declaration><![CDATA[// Sets the error descriptor
+METHOD SetDescriptor : I_MutableError // A reference to the current instance.
+VAR_INPUT
+    ipDescriptor : I_ErrorDescriptor; // The error descriptor to set.
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SetDescriptor := THIS^;
+
+THIS^._ipDescriptor := ipDescriptor;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetTimestamp" Id="{fb2a7762-f79d-0033-1957-e23d1a03204b}">
+      <Declaration><![CDATA[// Sets the timestamp of the error.
+METHOD SetTimestamp : I_MutableError // A reference to the current instance.
+VAR_INPUT
+	nTimestamp : ULINT; // High resolution timestamp of when the error occured.
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SetTimestamp := THIS^;
+
+THIS^._nTimestamp := nTimestamp;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

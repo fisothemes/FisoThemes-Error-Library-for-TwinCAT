@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="T_ErrorMessage" Id="{3c6f273a-b5ac-08ae-3800-1a62a1607cac}">
+    <Declaration><![CDATA[// Alias for error messages as strings with a predefined maximum length.
+// Length of message can be changed in the **Library_Parameters**.
+TYPE T_ErrorMessage : STRING(PARAM_Constants.ERROR_MESSAGE_SIZE); END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

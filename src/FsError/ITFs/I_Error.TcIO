@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_Error" Id="{b18242cf-39a1-070c-15c2-12e4984fd826}">
+    <Declaration><![CDATA[// This interface represents an error with a code, message, timestamp, a raised status as well as logging capabilities.
+INTERFACE I_Error EXTENDS __SYSTEM.IQueryInterface
+]]></Declaration>
+    <Property Name="Code" Id="{983f2415-c083-0f72-01d3-813dd3f39a3a}">
+      <Declaration><![CDATA[// The error code associated with this error.
+// [get] Returns the error code.
+PROPERTY Code : T_ErrorCode]]></Declaration>
+      <Get Name="Get" Id="{03158961-f593-0042-3dbe-c1f37166c2a8}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="Descriptor" Id="{28130efd-9291-0255-1d8e-7d088d5de099}">
+      <Declaration><![CDATA[// The provider for error code descriptions.
+// [get] Returns the error code descriptor.
+PROPERTY Descriptor : I_ErrorDescriptor]]></Declaration>
+      <Get Name="Get" Id="{b457d080-389a-0b57-0eda-ae684a97849c}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsNotRaised" Id="{5a23b705-06e8-0003-1a5a-b6665ab94ffc}">
+      <Declaration><![CDATA[// A boolean flag indicating whether the error has been raised.
+// [get] Returns TRUE if the error has **NOT** been raised, FALSE otherwise.
+PROPERTY IsNotRaised : BOOL]]></Declaration>
+      <Get Name="Get" Id="{c29dd7b4-3f79-0a73-1fef-67481d15861c}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="IsRaised" Id="{bc95818c-5656-0819-1a8f-bdb00d0cc953}">
+      <Declaration><![CDATA[// A boolean flag indicating whether the error has been raised.
+// [get] Returns TRUE if the error has been raised, FALSE otherwise.
+PROPERTY IsRaised : BOOL]]></Declaration>
+      <Get Name="Get" Id="{c6d4d099-e89c-0d51-2311-55844507453d}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Method Name="LogMessage" Id="{4b58cb0a-8b61-089b-217a-338ce12b7b62}">
+      <Declaration><![CDATA[// Logs this error message using the provided logger.
+METHOD LogMessage : I_Error // Reference to the current instance of I_Error
+VAR_INPUT
+	ipLogger 	: I_ErrorLogger; 	// The logger to use for logging.
+END_VAR
+VAR_OUTPUT
+	bIsBusy 	: BOOL;				// Is the operation still executing?
+	Error 		: T_Error;			// Error produced by operation.
+END_VAR]]></Declaration>
+    </Method>
+    <Property Name="Message" Id="{f8a02cf9-d204-057a-0953-fc3d3a2dbee9}">
+      <Declaration><![CDATA[// A descriptive message providing more details about the error.
+// [get] Returns the error message.
+PROPERTY Message : T_ErrorMessage]]></Declaration>
+      <Get Name="Get" Id="{0c4ae768-5d76-0c3e-08ec-86e3180a2083}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+    <Property Name="Timestamp" Id="{97bc0d72-3e3a-0cb7-2e88-c4d11462f58b}">
+      <Declaration><![CDATA[// The timestamp indicating when this error message occurred.
+// [get] Returns the timestamp.
+PROPERTY Timestamp : I_ErrorTimestamp]]></Declaration>
+      <Get Name="Get" Id="{8c873000-37a1-00e8-0a12-90085e4c3e8b}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

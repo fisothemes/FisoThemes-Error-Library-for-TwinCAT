@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <GVL Name="PARAM_Constants" Id="{3dd45391-78be-041d-2dd3-bde973a9696a}" ParameterList="True">
+    <Declaration><![CDATA[// Main parameters for the library.
+{attribute 'qualified_only'}
+VAR_GLOBAL CONSTANT
+	ERROR_MESSAGE_SIZE 				: __UXINT := 255; // String length of an error message.
+	DISK_LOGGER_PATH_LENGTH			: __UXINT := 300; // String length of disk logger path.
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

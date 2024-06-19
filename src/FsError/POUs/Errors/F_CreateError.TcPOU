@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="F_CreateError" Id="{6245ffe2-0c4b-0378-2c63-08c56849c572}" SpecialFunc="None">
+    <Declaration><![CDATA[// Create errors with specified parameters and sets the timestamp to the local time.
+FUNCTION F_CreateError : FB_Error
+VAR_INPUT
+	ipDescriptor 	: I_ErrorDescriptor; 	// Error descriptor.
+	Code 			: T_ErrorCode; 			// Error code.
+END_VAR
+VAR
+	fbMutError 			: FB_MutableError;
+	nResult,
+	nLowResTimestamp 	: DWORD;
+	nHighResTimestamp 	: ULINT;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Get highres local timestamp.
+nResult := SysTimeRtc.SysTimeRtcConvertUtcToLocal(
+			SysTimeRtc.SysTimeRtcGet(nResult),
+			nLowResTimestamp);
+			
+nHighResTimestamp := TO_ULINT(nLowResTimestamp)*1000 
+					 + 
+					 (TO_ULINT(LTIME()) MOD TO_ULINT(LTIME#1S)) / TO_ULINT(LTIME#1MS);
+
+// Set muttable error.
+fbMutError.SetDescriptor(ipDescriptor)
+		  .RaiseError(Code)
+		  .SetTimestamp(nHighResTimestamp);
+		  
+// Return as immutable error.
+F_CreateError := fbMutError;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

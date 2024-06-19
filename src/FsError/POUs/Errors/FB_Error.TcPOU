@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_Error" Id="{7288820e-d401-008d-0bb6-7b02edb9b9eb}" SpecialFunc="None">
+    <Declaration><![CDATA[// Base error object. Used to evaluate if an operation as errored out.
+{attribute 'enable_dynamic_creation'}
+{attribute 'no_explicit_call' := 'direct call for this function block is not allowed'}
+FUNCTION_BLOCK FB_Error IMPLEMENTS I_Error
+VAR
+	_Code 			: T_ErrorCode;
+	_nTimestamp		: ULINT;
+	_ipDescriptor 	: I_ErrorDescriptor;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Property Name="Code" Id="{0c34ddf3-30dd-073c-3fe6-488c16551048}">
+      <Declaration><![CDATA[// The error code associated with this error.
+// [get] Returns the error code.
+PROPERTY FINAL Code : T_ErrorCode]]></Declaration>
+      <Get Name="Get" Id="{bc7f48be-f2f6-0df4-1dd2-1a7656f65ddd}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Code := THIS^._Code;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Descriptor" Id="{c97deb0a-b83a-0ef1-2487-833cb2edf48f}">
+      <Declaration><![CDATA[// The provider for error code descriptions.
+// [get] Returns the error code descriptor.
+PROPERTY FINAL Descriptor : I_ErrorDescriptor]]></Declaration>
+      <Get Name="Get" Id="{3d2a9f50-8a00-0a4d-0720-3f6f1d5ccd6e}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Descriptor := THIS^._ipDescriptor;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsNotRaised" Id="{a50f146b-270f-0954-16dc-6edf91809b62}">
+      <Declaration><![CDATA[// A boolean flag indicating whether the error has been raised.
+// [get] Returns TRUE if the error has **NOT** been raised, FALSE otherwise.
+PROPERTY IsNotRaised : BOOL]]></Declaration>
+      <Get Name="Get" Id="{a81870f3-c6f9-0123-0b65-26fd1510fd16}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsNotRaised := NOT THIS^.IsRaised;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="IsRaised" Id="{38a4f7f6-faaf-0feb-152d-b31cdf86ef35}">
+      <Declaration><![CDATA[// A boolean flag indicating whether the error has been raised.
+// [get] Returns TRUE if the error has been raised, FALSE otherwise.
+PROPERTY FINAL IsRaised : BOOL]]></Declaration>
+      <Get Name="Get" Id="{bd3b3eed-8062-077b-013d-6fe8e97691e2}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsRaised := THIS^._Code <> 0;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Method Name="LogMessage" Id="{e892fbf2-b48a-0479-09bc-4a21f42c3ced}">
+      <Declaration><![CDATA[// Logs this error message using the provided logger.
+METHOD FINAL LogMessage : I_Error // Reference to the current instance of I_Error
+VAR_INPUT
+	ipLogger 	: I_ErrorLogger; 	// The logger to use for logging.
+END_VAR
+VAR_OUTPUT
+	bIsBusy 	: BOOL;				// Is the operation still executing?
+	Error 		: T_Error;			// Error produced by operation.
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[LogMessage := THIS^;
+
+// Check if interface is valid, if not then return error.
+IF ipLogger = 0 THEN 
+	Error := F_CreateError(
+		GVL_ErrorDescriptors.fbAdsReturnCodes,
+		E_AdsReturnCode.ADSERR_DEVICE_INVALIDINTERFACE);
+	RETURN;
+	END_IF
+	
+// Invokes the logger.
+ipLogger.Invoke(THIS^, bIsBusy => bIsBusy, Error => Error);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Message" Id="{ffe20df9-3e1d-01ed-064d-77e2fa287ef0}">
+      <Declaration><![CDATA[// A descriptive message providing more details about the error.
+// [get] Returns the error message.
+PROPERTY FINAL Message : T_ErrorMessage]]></Declaration>
+      <Get Name="Get" Id="{402bd164-c34b-0dfa-3300-7552f16f7aaf}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Message := SEL(	THIS^._ipDescriptor <> 0,
+				SEL(THIS^._Code = 0, 
+					Tc2_Standard.CONCAT('Error raised with code: ', TO_STRING(THIS^.Code)),
+					'No Error.'),
+				THIS^._ipDescriptor.GetDescription(THIS^.Code));]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="Timestamp" Id="{f4b9f12c-97ca-0f43-1b9a-b8b97e69bbb2}">
+      <Declaration><![CDATA[// The timestamp indicating when this error message occurred.
+// [get] Returns the timestamp as a DT.
+// [warning] Do not assign or call as reference, this is because the
+//			 value will be popped off the stack after the first access 
+//			 invalidating any references.
+PROPERTY Timestamp : I_ErrorTimestamp]]></Declaration>
+      <Get Name="Get" Id="{e40f2849-bd6c-0bee-2cee-367b9932ddf6}">
+        <Declaration><![CDATA[VAR_STAT
+	fbTimestamp : FB_ErrorTimestamp;
+END_VAR]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[fbTimestamp.Raw := THIS^._nTimestamp;
+Timestamp 		:= fbTimestamp;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+  </POU>
+</TcPlcObject>

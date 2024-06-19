@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="T_ErrorCode" Id="{b70c1957-df68-0090-1cc5-1b4104a869c2}">
+    <Declaration><![CDATA[// Alias for error code.
+TYPE T_ErrorCode : LINT; END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="T_Error" Id="{c1df8a4e-e064-0857-16ff-9a0f6aacee61}">
+    <Declaration><![CDATA[// Alias for the error object.
+TYPE T_Error : FB_Error; END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

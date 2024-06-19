@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_CodesysCmpErrorDescriptor" Id="{1cf63afd-f780-0647-2efb-94d564350d70}" SpecialFunc="None">
+    <Declaration><![CDATA[// Descriptor for Codesys CmpErrors.
+// Provides description for errors.
+{attribute 'no_assign'}
+{attribute 'enable_dynamic_creation'}
+{attribute 'no_explicit_call' := 'direct call for this function block is not allowed'}
+FUNCTION_BLOCK FB_CodesysCmpErrorDescriptor IMPLEMENTS I_ErrorDescriptor
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="GetDescription" Id="{e5395684-aef4-0084-1e66-19df38eba840}">
+      <Declaration><![CDATA[// Retrieves the descriptive message for the specified error code.
+METHOD GetDescription : T_ErrorMessage // The descriptive message corresponding to the provided error code.
+VAR_INPUT
+	Code : T_ErrorCode; // The error code for which the description is to be retrieved.
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE Code OF
+    E_CodesysCmpError.ERR_OK:                       GetDescription := 'No error.';
+    E_CodesysCmpError.ERR_FAILED:                   GetDescription := 'General error - To be used only for internal errors.';
+    E_CodesysCmpError.ERR_PARAMETER:                GetDescription := 'Invalid parameter for this operation.';
+    E_CodesysCmpError.ERR_NOT_INITIALIZED:          GetDescription := 'Function cannot be executed, since component has not been initialized yet. It may work later, though.';
+    E_CodesysCmpError.ERR_VERSION:                  GetDescription := 'Version conflict.';
+    E_CodesysCmpError.ERR_TIMEOUT:                  GetDescription := 'Operation timed out.';
+    E_CodesysCmpError.ERR_NO_BUFFER:                GetDescription := 'Insufficient memory to carry out the request.';
+    E_CodesysCmpError.ERR_PENDING:                  GetDescription := 'For async-calls: call not complete, yet.';
+    E_CodesysCmpError.ERR_NUM_PENDING:              GetDescription := 'Too many pending calls. Try later.';
+    E_CodesysCmpError.ERR_NOT_IMPLEMENTED:          GetDescription := 'The function is not implemented.';
+    E_CodesysCmpError.ERR_INVALID_ID:               GetDescription := 'No object with the provided id found.';
+    E_CodesysCmpError.ERR_OVERFLOW:                 GetDescription := 'Integer overflow.';
+    E_CodesysCmpError.ERR_BUFFER_SIZE:              GetDescription := 'The size of a buffer is too small OR invalid.';
+    E_CodesysCmpError.ERR_NO_OBJECT:                GetDescription := 'No object with this specified name available.';
+    E_CodesysCmpError.ERR_NO_MEMORY:                GetDescription := 'No heap memory available.';
+    E_CodesysCmpError.ERR_DUPLICATE:                GetDescription := 'An object with the same name is still available.';
+    E_CodesysCmpError.ERR_MEMORY_OVERWRITE:         GetDescription := 'Heap memory was written out of bounds! Memory overwrite error.';
+    E_CodesysCmpError.ERR_INVALID_HANDLE:           GetDescription := 'Invalid handle to an object.';
+    E_CodesysCmpError.ERR_END_OF_0BJECT:            GetDescription := 'End OF object reached.';
+    E_CodesysCmpError.ERR_NO_CHANGE:                GetDescription := 'No changes done.';
+    E_CodesysCmpError.ERR_INVALID_INTERFACE:        GetDescription := 'Invalid or unknown interface.';
+    E_CodesysCmpError.ERR_NOT_SUPPORTED:            GetDescription := 'Functionality not supported.';
+    E_CodesysCmpError.ERR_NO_ACCESS_RIGHTS:         GetDescription := 'No access rights for this operation.';
+    E_CodesysCmpError.ERR_OUT_OF_LIMITS:            GetDescription := 'Specified limits of a resource exceeded.';
+    E_CodesysCmpError.ERR_ENTRIES_REMAINING:        GetDescription := 'Remaining entries that could not be transmitted because of buffer limitation.';
+    E_CodesysCmpError.ERR_INVALID_SESSION_ID:       GetDescription := 'Invalid online sessionid.';
+    E_CodesysCmpError.ERR_EXCEPTION:                GetDescription := 'Exception occurred.';
+    E_CodesysCmpError.ERR_SIGNATURE_MISMATCH:       GetDescription := 'Signature mismatch of an api function.';
+    E_CodesysCmpError.ERR_VERSION_MISMATCH:         GetDescription := 'Version mismatch.';
+    E_CodesysCmpError.ERR_TYPE_MISMATCH:            GetDescription := 'Type mismatch.';
+    E_CodesysCmpError.ERR_ID_MISMATCH:              GetDescription := 'ID mismatch.';
+    E_CodesysCmpError.ERR_NO_CONSISTENCY:           GetDescription := 'Consistency error.';
+    E_CodesysCmpError.ERR_NO_COMM_CYCLE:            GetDescription := 'No COMM_CYCLE needed.';
+    E_CodesysCmpError.ERR_DONT_SUSPEND_TASK:        GetDescription := 'Do not suspend task after an exception.';
+    E_CodesysCmpError.ERR_MEMORY_LOCK_FAILED:       GetDescription := 'Memory cannot be locked in this operation.';
+    E_CodesysCmpError.ERR_LICENSE_MISSING:          GetDescription := 'License missing for the runtime.';
+    E_CodesysCmpError.ERR_OPERATION_DENIED:         GetDescription := 'Operation denied.';
+    E_CodesysCmpError.ERR_DEVICE:                   GetDescription := 'Device error.';
+    E_CodesysCmpError.ERR_DISK_FULL:                GetDescription := 'Disk full.';
+    E_CodesysCmpError.ERR_CRC_FAILED:               GetDescription := 'Internal use in runtime.';
+    E_CodesysCmpError.ERR_MEDIA_ERASE:              GetDescription := 'Internal use in runtime.';
+    E_CodesysCmpError.ERR_FILE_ERROR:               GetDescription := 'File error. e.g. cannot open a file for writing because it could be write protected.';
+    E_CodesysCmpError.ERR_NO_RETAIN_MEMORY:         GetDescription := 'No retain memory available.';
+    E_CodesysCmpError.ERR_OUT_OF_LIMITS_MIN:        GetDescription := 'Specified minimum-limit of a resource exceeded.';
+    E_CodesysCmpError.ERR_OUT_OF_LIMITS_MAX:        GetDescription := 'Specified maximum-limit of a resource exceeded.';
+    E_CodesysCmpError.ERR_SIZE_MISMATCH:            GetDescription := 'Size mismatch.';
+    E_CodesysCmpError.ERR_CALL_AGAIN:               GetDescription := 'Operation is not yet finished, call function again to proceed.';
+    E_CodesysCmpError.ERR_NOTHING_TO_DO:            GetDescription := 'Operation has nothing to do. No execution.';
+    E_CodesysCmpError.ERR_SECURITY_CHECKS_FAILED:   GetDescription := 'Some security checks have failed.';
+    E_CodesysCmpError.ERR_INVALID_SEQUENCE:         GetDescription := 'Invalid sequence of operations.';
+    E_CodesysCmpError.ERR_INVALID_REFERENCE:        GetDescription := 'Dereferencing an IEC reference in IecVarAccess failed due to invalid destination address, e. G. NULL.';
+    E_CodesysCmpError.ERR_CONVERSION_INCOMPLETE:    GetDescription := 'Conversion of string encodings was not lossless.';
+    E_CodesysCmpError.ERR_SOCK_NOT_INITIALIZED:     GetDescription := 'Socket errors (range: 0x0200 - 0X02FF).';
+    E_CodesysCmpError.ERR_SOCK_NOT_SOCKET:          GetDescription := 'The provided socket handle is invalid.';
+    E_CodesysCmpError.ERR_SOCK_AF_UNSUPPORTED:      GetDescription := 'The address family is not supported.';
+    E_CodesysCmpError.ERR_SOCK_PROTO_UNSUPPORTED:   GetDescription := 'Protocol is not supported.';
+    E_CodesysCmpError.ERR_SOCK_NO_BUFFER:           GetDescription := 'Not enough buffer to handle the request.';
+    E_CodesysCmpError.ERR_SOCK_WOULD_BLOCK:         GetDescription := 'Socket is in nonblocking mode but this call would block.';
+    E_CodesysCmpError.ERR_SOCK_ADDR_INUSE:          GetDescription := 'The provided address is already in use.';
+    E_CodesysCmpError.ERR_SOCK_ADDR_NOT_AVAILABLE:  GetDescription := 'The provided address is not available on THIS computer.';
+    E_CodesysCmpError.ERR_SOCK_CONN_REFUSED:        GetDescription := 'Connection has been refused by the remote host.';
+    E_CodesysCmpError.ERR_SOCK_TIMEDOUT:            GetDescription := 'Operation timed out.';
+    E_CodesysCmpError.ERR_SOCK_HOST_NOT_FOUND:      GetDescription := 'The host has NOT been found.';
+    E_CodesysCmpError.ERR_SOCK_HOST_UNREACHABLE:    GetDescription := 'Host is unreachable.';
+    E_CodesysCmpError.ERR_SOCK_1S_CONNECTED:        GetDescription := 'Socket is already connected.';
+    E_CodesysCmpError.ERR_SOCK_NOT_CONNECTED:       GetDescription := 'The socket is not connected.';
+    E_CodesysCmpError.ERR_SOCK_SHUTDOWN:            GetDescription := 'Shutdown has been called on the socket.';
+    E_CodesysCmpError.ERR_SOCK_MSGSIZE:             GetDescription := 'For sockets of type DGRAM. The package to send exceeds the maximum package size.';
+    E_CodesysCmpError.ERR_SOCK_CLOSED:              GetDescription := 'Socket has been gracefully closed. No more send/receives allowed.';
+    E_CodesysCmpError.ERR_L7_TAG_MISSING:           GetDescription := 'Tag missing in online communication buffer.';
+    E_CodesysCmpError.ERR_L7_UNKNOWN_CMD_GROUP:     GetDescription := 'Unknown command group.';
+    E_CodesysCmpError.ERR_L7_UNKNOWN_CMD:           GetDescription := 'Unknown command (within a valid command group).';
+    E_CodesysCmpError.ERR_L7_INCOMPLETE:            GetDescription := 'Level 7 service incomplete.';
+ELSE
+    GetDescription := Tc2_Standard.CONCAT('Unknown Codesys Cmp error code: ', Tc2_Standard.CONCAT(TO_STRING(Code), '.'));
+	END_CASE;
+]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

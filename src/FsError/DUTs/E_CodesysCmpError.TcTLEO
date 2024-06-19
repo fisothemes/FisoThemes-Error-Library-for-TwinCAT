@@ -1,0 +1,476 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <EnumerationTextList Name="E_CodesysCmpError" Id="{646f6e19-58fe-0dab-204c-0d9ca5a06ebe}">
+    <Declaration><![CDATA[ // Error codes are found @ CmpErrors.Errors.<variable> from the CmpErrors2 Interfaces library.
+ // See: https://help.codesys.com/webapp/Errors;product=CmpErrors2_Itfs;version=3.5.15.0
+{attribute 'qualified_only'}
+{attribute 'to_string'}
+TYPE E_CodesysCmpError :
+(
+	ERR_OK 						 := 16#0,	//	Ok
+	ERR_FAILED 					 := 16#1, 	//	General error - To be used only for internal errors
+	ERR_PARAMETER 				 := 16#2, 	//	Invalid parameter for this operation
+	ERR_NOT_INITIALIZED 		 := 16#3, 	//	Function cannot be executed, since component has not been initialized yet. It may work later, though
+	ERR_VERSION 				 := 16#4, 	//	Version conflict
+	ERR_TIMEOUT 				 := 16#5, 	//	Operation timed out
+	ERR_NO_BUFFER 				 := 16#6, 	//	Insufficient memory to carry out the request
+	ERR_PENDING 				 := 16#A, 	//	For async-calls: call not complete, yet
+	ERR_NUM_PENDING 			 := 16#B, 	//  Too many pending calls. Try later
+	ERR_NOT_IMPLEMENTED 		 := 16#C, 	//  The function is not implemented
+	ERR_INVALID_ID 				 := 16#D, 	//  No object with the provided id found
+	ERR_OVERFLOW 				 := 16#E, 	//	Integer overflow
+	ERR_BUFFER_SIZE 			 := 16#F, 	//	The size of a buffer is too small OR invalid
+	ERR_NO_OBJECT 				 := 16#10,	//	No object with this specified name available
+	ERR_NO_MEMORY 				 := 16#11,	//  No heap memory available
+	ERR_DUPLICATE 				 := 16#12, 	//  An object with the same name is still available
+	ERR_MEMORY_OVERWRITE 		 := 16#13,  //  Heap memory was written out of bounds! Memory overwrite error
+	ERR_INVALID_HANDLE 			 := 16#14,  //  Invalid handle to an object
+	ERR_END_OF_0BJECT 			 := 16#15,  //  End OF object reached
+	ERR_NO_CHANGE 				 := 16#16,  //  No changes done
+	ERR_INVALID_INTERFACE 		 := 16#17,  //  Invalid or unknown interface
+	ERR_NOT_SUPPORTED 			 := 16#18,  //  Functionality not supported
+	ERR_NO_ACCESS_RIGHTS 		 := 16#19,  //  No access rights for this operation
+	ERR_OUT_OF_LIMITS 			 := 16#1A,  //  Specified limits of a resource exceeded
+	ERR_ENTRIES_REMAINING 		 := 16#1B,  //  Remaining entries that could not be transmitted because of buffer limitation
+	ERR_INVALID_SESSION_ID 		 := 16#1C,  //  Invalid online sessionid
+	ERR_EXCEPTION 				 := 16#1D,  //  Exception occurred
+	ERR_SIGNATURE_MISMATCH 		 := 16#1E,	//	Signature mismatch of an api function
+	ERR_VERSION_MISMATCH 		 := 16#1F,	//	Version mismatch
+	ERR_TYPE_MISMATCH 			 := 16#20,	//	Type mismatch
+	ERR_ID_MISMATCH 			 := 16#21,	//	ID mismatch
+	ERR_NO_CONSISTENCY 			 := 16#22,	//	Consistency error
+	ERR_NO_COMM_CYCLE 			 := 16#23,	//	No COMM_CYCLE needed
+	ERR_DONT_SUSPEND_TASK 		 := 16#24,	//	Do not suspend task after an exception
+	ERR_MEMORY_LOCK_FAILED 		 := 16#25,	//	Memory cannot be locked in this operation
+	ERR_LICENSE_MISSING 		 := 16#26,	//	License missing for the runtime
+	ERR_OPERATION_DENIED 		 := 16#27,	//	Operation denied 
+	ERR_DEVICE 					 := 16#28,	//	Device error
+	ERR_DISK_FULL 				 := 16#29,	//	Disk full
+	ERR_CRC_FAILED 				 := 16#30,	//	Internal use in runtime
+	ERR_MEDIA_ERASE 			 := 16#31,	//	Internal use in runtime
+	ERR_FILE_ERROR 				 := 16#32,	//	File error. e.g. cannot open a file for writing because it could be write protected
+	ERR_NO_RETAIN_MEMORY 		 := 16#33,	//	No retain memory available
+	ERR_OUT_OF_LIMITS_MIN 		 := 16#34,	//	Specified minimum-limit of a resource exceeded
+	ERR_OUT_OF_LIMITS_MAX 		 := 16#35,	//	Specified maximum-limit of a resource exceeded
+	ERR_SIZE_MISMATCH 			 := 16#36,	//	Size mismatch
+	ERR_CALL_AGAIN 				 := 16#37,	//	Operation is not yet finished, call function again to proceed
+	ERR_NOTHING_TO_DO 			 := 16#38,	//	Operation has nothing to do. No execution.
+	ERR_SECURITY_CHECKS_FAILED 	 := 16#39,	//	Some security checks have failed. /* This is a generic error code to report this error over public channels. In this case the error code doesn’t provide a detailed cause for the error. */
+	ERR_INVALID_SEQUENCE 		 := 16#3A,	//	 
+	ERR_INVALID_REFERENCE 		 := 16#3B,	//	Dereferencing an IEC reference in IecVarAccess failed due to invalid destination address, e. G. NULL.
+	ERR_CONVERSION_INCOMPLETE 	 := 16#3C,	//	Conversion of string encodings was not lossless.
+	ERR_SOCK_NOT_INITIALIZED 	 := 16#201, //  Socket errors (range: 0x0200 - 0X02FF)
+	ERR_SOCK_NOT_SOCKET 		 := 16#202, //  The provided socket handle is invalid
+	ERR_SOCK_AF_UNSUPPORTED 	 := 16#203, //  The address family is not supported
+	ERR_SOCK_PROTO_UNSUPPORTED   := 16#204, //  Protocol is not supported 
+	ERR_SOCK_NO_BUFFER 			 := 16#205, //  Not enough buffer to handle the request 
+	ERR_SOCK_WOULD_BLOCK 		 := 167206, //  Socket is in nonblocking mode but this call would block 
+	ERR_SOCK_ADDR_INUSE 		 := 16#207, //  The provided address is already in use 
+	ERR_SOCK_ADDR_NOT_AVAILABLE  := 16#208, //  The provided address is not available on THIS computer 
+	ERR_SOCK_CONN_REFUSED 		 := 16#209, //  Connection has been refused by the remote host 
+	ERR_SOCK_TIMEDOUT 			 := 16#20A, //  Operation timed out
+	ERR_SOCK_HOST_NOT_FOUND 	 := 16#20B, //  The host has NOT been found
+	ERR_SOCK_HOST_UNREACHABLE  	 := 16#20C, //  Host is unreachable
+	ERR_SOCK_1S_CONNECTED 		 := 16#20D, //  Socket is already connected
+	ERR_SOCK_NOT_CONNECTED 		 := 16#20E, //  The socket is not connected
+	ERR_SOCK_SHUTDOWN 			 := 16#20F, //  Shutdown has been called on the socket 
+	ERR_SOCK_MSGSIZE 			 := 16#210, //  For sockets of type DGRAM. The package to send exceeds the maximum package size 
+	ERR_SOCK_CLOSED 			 := 16#211, //  Socket has been gracefully closed. No more send/receives allowed 
+	ERR_L7_TAG_MISSING 			 := 16#300,	//  Tag missing in online communication buffer
+	ERR_L7_UNKNOWN_CMD_GROUP 	 := 16#301,	//  Unknown command group
+	ERR_L7_UNKNOWN_CMD 			 := 16#302,	//  Unknown command (within a valid command group)
+	ERR_L7_INCOMPLETE 			 := 16#303	//  Level 7 service incomplete
+)LINT;
+END_TYPE
+]]></Declaration>
+    <XmlArchive>
+      <Data>
+        <o xml:space="preserve" t="TextListEnumerationTextListObject">
+          <l n="TextList" t="ArrayList" cet="TextListRow">
+            <o>
+              <v n="TextID">"ERR_OK"</v>
+              <v n="TextDefault">"16#0"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_FAILED"</v>
+              <v n="TextDefault">"16#1"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_PARAMETER"</v>
+              <v n="TextDefault">"16#2"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NOT_INITIALIZED"</v>
+              <v n="TextDefault">"16#3"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_VERSION"</v>
+              <v n="TextDefault">"16#4"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_TIMEOUT"</v>
+              <v n="TextDefault">"16#5"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NO_BUFFER"</v>
+              <v n="TextDefault">"16#6"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_PENDING"</v>
+              <v n="TextDefault">"16#A"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NUM_PENDING"</v>
+              <v n="TextDefault">"16#B"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NOT_IMPLEMENTED"</v>
+              <v n="TextDefault">"16#C"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_INVALID_ID"</v>
+              <v n="TextDefault">"16#D"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_OVERFLOW"</v>
+              <v n="TextDefault">"16#E"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_BUFFER_SIZE"</v>
+              <v n="TextDefault">"16#F"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NO_OBJECT"</v>
+              <v n="TextDefault">"16#10"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NO_MEMORY"</v>
+              <v n="TextDefault">"16#11"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_DUPLICATE"</v>
+              <v n="TextDefault">"16#12"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_MEMORY_OVERWRITE"</v>
+              <v n="TextDefault">"16#13"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_INVALID_HANDLE"</v>
+              <v n="TextDefault">"16#14"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_END_OF_0BJECT"</v>
+              <v n="TextDefault">"16#15"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NO_CHANGE"</v>
+              <v n="TextDefault">"16#16"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_INVALID_INTERFACE"</v>
+              <v n="TextDefault">"16#17"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NOT_SUPPORTED"</v>
+              <v n="TextDefault">"16#18"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NO_ACCESS_RIGHTS"</v>
+              <v n="TextDefault">"16#19"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_OUT_OF_LIMITS"</v>
+              <v n="TextDefault">"16#1A"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_ENTRIES_REMAINING"</v>
+              <v n="TextDefault">"16#1B"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_INVALID_SESSION_ID"</v>
+              <v n="TextDefault">"16#1C"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_EXCEPTION"</v>
+              <v n="TextDefault">"16#1D"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SIGNATURE_MISMATCH"</v>
+              <v n="TextDefault">"16#1E"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_VERSION_MISMATCH"</v>
+              <v n="TextDefault">"16#1F"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_TYPE_MISMATCH"</v>
+              <v n="TextDefault">"16#20"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_ID_MISMATCH"</v>
+              <v n="TextDefault">"16#21"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NO_CONSISTENCY"</v>
+              <v n="TextDefault">"16#22"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NO_COMM_CYCLE"</v>
+              <v n="TextDefault">"16#23"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_DONT_SUSPEND_TASK"</v>
+              <v n="TextDefault">"16#24"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_MEMORY_LOCK_FAILED"</v>
+              <v n="TextDefault">"16#25"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_LICENSE_MISSING"</v>
+              <v n="TextDefault">"16#26"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_OPERATION_DENIED"</v>
+              <v n="TextDefault">"16#27"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_DEVICE"</v>
+              <v n="TextDefault">"16#28"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_DISK_FULL"</v>
+              <v n="TextDefault">"16#29"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_CRC_FAILED"</v>
+              <v n="TextDefault">"16#30"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_MEDIA_ERASE"</v>
+              <v n="TextDefault">"16#31"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_FILE_ERROR"</v>
+              <v n="TextDefault">"16#32"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NO_RETAIN_MEMORY"</v>
+              <v n="TextDefault">"16#33"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_OUT_OF_LIMITS_MIN"</v>
+              <v n="TextDefault">"16#34"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_OUT_OF_LIMITS_MAX"</v>
+              <v n="TextDefault">"16#35"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SIZE_MISMATCH"</v>
+              <v n="TextDefault">"16#36"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_CALL_AGAIN"</v>
+              <v n="TextDefault">"16#37"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_NOTHING_TO_DO"</v>
+              <v n="TextDefault">"16#38"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SECURITY_CHECKS_FAILED"</v>
+              <v n="TextDefault">"16#39"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_INVALID_SEQUENCE"</v>
+              <v n="TextDefault">"16#3A"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_INVALID_REFERENCE"</v>
+              <v n="TextDefault">"16#3B"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_CONVERSION_INCOMPLETE"</v>
+              <v n="TextDefault">"16#3C"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_NOT_INITIALIZED"</v>
+              <v n="TextDefault">"16#201"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_NOT_SOCKET"</v>
+              <v n="TextDefault">"16#202"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_AF_UNSUPPORTED"</v>
+              <v n="TextDefault">"16#203"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_PROTO_UNSUPPORTED"</v>
+              <v n="TextDefault">"16#204"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_NO_BUFFER"</v>
+              <v n="TextDefault">"16#205"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_WOULD_BLOCK"</v>
+              <v n="TextDefault">"167206"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_ADDR_INUSE"</v>
+              <v n="TextDefault">"16#207"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_ADDR_NOT_AVAILABLE"</v>
+              <v n="TextDefault">"16#208"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_CONN_REFUSED"</v>
+              <v n="TextDefault">"16#209"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_TIMEDOUT"</v>
+              <v n="TextDefault">"16#20A"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_HOST_NOT_FOUND"</v>
+              <v n="TextDefault">"16#20B"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_HOST_UNREACHABLE"</v>
+              <v n="TextDefault">"16#20C"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_1S_CONNECTED"</v>
+              <v n="TextDefault">"16#20D"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_NOT_CONNECTED"</v>
+              <v n="TextDefault">"16#20E"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_SHUTDOWN"</v>
+              <v n="TextDefault">"16#20F"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_MSGSIZE"</v>
+              <v n="TextDefault">"16#210"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_SOCK_CLOSED"</v>
+              <v n="TextDefault">"16#211"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_L7_TAG_MISSING"</v>
+              <v n="TextDefault">"16#300"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_L7_UNKNOWN_CMD_GROUP"</v>
+              <v n="TextDefault">"16#301"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_L7_UNKNOWN_CMD"</v>
+              <v n="TextDefault">"16#302"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"ERR_L7_INCOMPLETE"</v>
+              <v n="TextDefault">"16#303"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">""</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+          </l>
+          <l n="Languages" t="ArrayList" />
+          <v n="GuidInit">{e42b9cac-7946-499f-bd6d-6c9b5ccc5e8c}</v>
+          <v n="GuidReInit">{028fa3a0-b858-4d2b-a03b-4d7cc84e19b8}</v>
+          <v n="GuidExitX">{3e61f17c-7c4e-48fb-921b-f0fe708a4d48}</v>
+        </o>
+      </Data>
+      <TypeList>
+        <Type n="ArrayList">System.Collections.ArrayList</Type>
+        <Type n="Guid">System.Guid</Type>
+        <Type n="String">System.String</Type>
+        <Type n="TextListEnumerationTextListObject">{4b60233c-f940-4beb-b331-82133b520151}</Type>
+        <Type n="TextListRow">{53da1be7-ad25-47c3-b0e8-e26286dad2e0}</Type>
+      </TypeList>
+    </XmlArchive>
+  </EnumerationTextList>
+</TcPlcObject>

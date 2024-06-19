@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_ErrorDescriptor" Id="{1e09aa87-89c5-07d8-3cda-a921df257785}">
+    <Declaration><![CDATA[// This interface provides a method to retrieve descriptive messages for error codes.
+INTERFACE I_ErrorDescriptor EXTENDS __SYSTEM.IQueryInterface;]]></Declaration>
+    <Method Name="GetDescription" Id="{a1f7ef42-61c8-068c-1500-e81800f8675c}">
+      <Declaration><![CDATA[// Retrieves the descriptive message for the specified error code.
+METHOD GetDescription : T_ErrorMessage // The descriptive message corresponding to the provided error code.
+VAR_INPUT
+	Code : T_ErrorCode; // The error code for which the description is to be retrieved.
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

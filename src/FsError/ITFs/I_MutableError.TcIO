@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_MutableError" Id="{1ef34c13-ee98-0d24-2ee4-ace3ea4545e5}">
+    <Declaration><![CDATA[// This interface represents an error that is mutable.
+INTERFACE I_MutableError EXTENDS I_Error
+]]></Declaration>
+    <Method Name="CopyFrom" Id="{ada6207a-79fe-0c53-1750-30506a5fdca1}">
+      <Declaration><![CDATA[// Copies the properties from another error instance.
+// This method allows the current mutable error instance to copy the error code,
+// descriptor, message, and timestamp from another error instance, effectively
+// duplicating the state of the provided error instance.
+METHOD CopyFrom : I_MutableError // A reference to the current instance.
+VAR_INPUT
+	ipError : I_Error; // The error instance from which to copy the properties
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="RaiseError" Id="{2219b9cd-66a7-0f7a-24a7-e449cb10d21a}">
+      <Declaration><![CDATA[// Raises an error with the specified error code.
+METHOD RaiseError : I_MutableError // A reference to the current instance.
+VAR_INPUT
+    Code : T_ErrorCode; // The error code to raise.
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="SetDescriptor" Id="{f9231783-71cc-065b-3d3a-636817c5672e}">
+      <Declaration><![CDATA[// Sets the error descriptor
+METHOD SetDescriptor : I_MutableError // A reference to the current instance.
+VAR_INPUT
+    ipDescriptor : I_ErrorDescriptor; // The error descriptor to set.
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="SetTimestamp" Id="{0b4b806b-dc00-0f35-0efa-c4e5bf064763}">
+      <Declaration><![CDATA[// Sets the timestamp of the error.
+METHOD SetTimestamp : I_MutableError // A reference to the current instance.
+VAR_INPUT
+	nTimestamp : ULINT; // High resolution timestamp of when the error occured.
+END_VAR
+]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_ErrorTimestamp" Id="{a13c530e-7270-0a3f-1646-c465c1a2793a}">
+    <Declaration><![CDATA[// Interface that represents a timestamp and provides methods to retrieve various date and time components.
+INTERFACE I_ErrorTimestamp EXTENDS __SYSTEM.IQueryInterface]]></Declaration>
+    <Method Name="AsDateTime" Id="{13617631-6ce7-0f85-28b3-47101cd65702}">
+      <Declaration><![CDATA[// Retrieves the timestamp as a combined date and time value.
+METHOD AsDateTime : DT // The combined date and time value as a DT (Date and Time).
+VAR_INPUT
+END_VAR]]></Declaration>
+    </Method>
+    <Method Name="GetDate" Id="{1b146767-c0fa-0553-38e7-f3459688d4e5}">
+      <Declaration><![CDATA[// Retrieves the date part of the timestamp.
+METHOD GetDate : DATE // The date part of the timestamp.
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Method Name="GetTimeOfDay" Id="{8be5a2b9-9c33-0417-3eda-4ebece7a8d28}">
+      <Declaration><![CDATA[// Retrieves the time of day part of the timestamp.
+METHOD GetTimeOfDay : TOD // The time of day part of the timestamp.
+VAR_INPUT
+END_VAR
+]]></Declaration>
+    </Method>
+    <Property Name="Raw" Id="{0450f740-97a7-0609-0455-9d560815d227}">
+      <Declaration><![CDATA[// The raw timestamp value which represents the number of milliseconds since Thursday, 1.1.1970 00:00:00.000.
+// [get] Returns the raw timestamp value.
+PROPERTY Raw : ULINT]]></Declaration>
+      <Get Name="Get" Id="{1e2231c3-e2e8-0329-3fc7-a4cc92338d10}">
+        <Declaration><![CDATA[]]></Declaration>
+      </Get>
+    </Property>
+  </Itf>
+</TcPlcObject>

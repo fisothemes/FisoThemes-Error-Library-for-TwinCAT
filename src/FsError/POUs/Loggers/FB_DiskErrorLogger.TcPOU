@@ -1,0 +1,410 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_DiskErrorLogger" Id="{bf07c8fb-c4b4-00c4-2dc8-81af9c5efe23}" SpecialFunc="None">
+    <Declaration><![CDATA[// Simple logger for logging errors to specified file path on disk.
+{attribute 'no_assign'}
+{attribute 'enable_dynamic_creation'}
+{attribute 'no_explicit_call' := 'direct call for this function block is not allowed'}
+FUNCTION_BLOCK FB_DiskErrorLogger IMPLEMENTS I_ErrorLogger
+VAR
+	_FilePath 		: T_DiskLoggerPath;
+	_Handle 		: SysTypes.RTS_IEC_HANDLE := SysTypes.RTS_INVALID_HANDLE;
+	_bAutoFlush		: BOOL 			:= TRUE;
+	_sDelimiter 	: STRING(1) 	:= ',';
+	_sTextQualifier : STRING(1) 	:= '"';
+	_sLineEnding 	: STRING(10) 	:= '$R$N';
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Folder Name="Internal" Id="{a9a452d6-d86f-095d-1e27-6e915fe03c53}" />
+    <Property Name="AutoFlush" Id="{8584c407-b91d-0d37-3c93-3614b322d90f}">
+      <Declaration><![CDATA[// Flush the file cache automatically after logging?
+// [default] TRUE - Flush after every write.
+// [get] Returns the state of the auto-flush config.
+// [set] Set the state of the auto-flush config.
+PROPERTY AutoFlush : BOOL]]></Declaration>
+      <Get Name="Get" Id="{506a1180-06d0-03bc-355a-de3ae0d6ca21}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[AutoFlush := THIS^._bAutoFlush;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{cc35a962-3f74-098b-3192-41807790a7f8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[THIS^._bAutoFlush := AutoFlush;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Close" Id="{657273d4-0be7-0672-1d2a-c35219928492}">
+      <Declaration><![CDATA[// Closes current log file.
+METHOD Close
+VAR_OUTPUT
+	bIsBusy 	: BOOL;				// Is the operation still executing?
+	Error 		: T_Error;			// Error produced by operation.
+END_VAR
+VAR
+	eResult 	: E_CodesysCmpError;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Error := F_CreateError(	GVL_ErrorDescriptors.fbCodesysCmpErrors,
+						SysFile.SysFileClose(THIS^._Handle));]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="CreateLogEntry" Id="{a64b81cf-7222-08ce-2b93-1933ad3b8e24}" FolderPath="Internal\">
+      <Declaration><![CDATA[// Creates log entry.
+METHOD PROTECTED CreateLogEntry : __XWORD // Size of message.
+VAR_IN_OUT
+	LoggedErrorMessage 	: T_ErrorMessage; // String to store message.
+END_VAR
+VAR_INPUT
+	ipError				: I_Error;
+END_VAR
+VAR
+	sDate, 
+	sTimeOfDay,
+	sErrorCode 			: STRING(24);
+	ErrorMessage		: T_ErrorMessage;
+	nCursor, nIndex 	: __UXINT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF ipError = 0 OR SIZEOF(T_ErrorMessage) < 2 THEN RETURN; END_IF
+
+// Convert Date, time of day and error code to string.
+sDate 		:= TO_STRING(ipError.Timestamp.GetDate());
+sTimeOfDay 	:= TO_STRING(ipError.Timestamp.GetTimeOfDay());
+sErrorCode	:= TO_STRING(ipError.Code);
+
+// Append timestamp start text qualifier.
+LoggedErrorMessage := THIS^._sTextQualifier;
+
+// Append date.
+nIndex := 0;
+WHILE sDate[2 + nIndex] <> 0 DO
+	nCursor := nCursor + 1;
+	LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := sDate[2 + nIndex];
+	nIndex := nIndex + 1;
+	END_WHILE
+
+// Append space bar.
+nCursor := nCursor + 1;
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := 32;
+
+// Append time of day.
+nIndex := 0;
+WHILE sTimeOfDay[4 + nIndex] <> 0 DO
+	nCursor := nCursor + 1;
+	LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := sTimeOfDay[4 + nIndex];
+	nIndex := nIndex + 1;
+	END_WHILE
+	
+// Append timestamp end text qualifier.
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sTextQualifier[0];
+
+// Append delimiter.
+nCursor := nCursor + 1;
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sDelimiter[0];
+
+// Append error code start text qualifier.
+nCursor := nCursor + 1;
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sTextQualifier[0];
+
+// Append error code.
+nIndex := 0;
+WHILE sErrorCode[nIndex] <> 0 DO
+	nCursor := nCursor + 1;
+	LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := sErrorCode[nIndex];
+	nIndex := nIndex + 1;
+	END_WHILE
+	
+// Append error code end text qualifier.
+nCursor := nCursor + 1;
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sTextQualifier[0];
+
+// Append delimiter.
+nCursor := nCursor + 1;
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sDelimiter[0];
+
+// Append error code start text qualifier.
+nCursor := nCursor + 1;
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sTextQualifier[0];
+
+// Append error message.
+ErrorMessage := ipError.Message;
+nIndex := 0;
+WHILE ErrorMessage[nIndex] <> 0 DO
+	nCursor := nCursor + 1;
+	LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := ErrorMessage[nIndex];
+	nIndex := nIndex + 1;
+	END_WHILE
+
+// Append error code end text qualifier.
+nCursor := nCursor + 1;
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sTextQualifier[0];
+
+// Append line ending.
+nIndex := 0;
+WHILE THIS^._sLineEnding[nIndex] <> 0 DO
+	nCursor := nCursor + 1;
+	LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sLineEnding[nIndex];
+	nIndex := nIndex + 1;
+	END_WHILE
+
+// Terminate string.
+nCursor := nCursor + 1;
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := 0;
+
+// Return size of string.
+CreateLogEntry := SEL(nCursor <> 0, 0, nCursor - 1);]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="Delimiter" Id="{a965be14-8980-098a-0686-facdbcda5b55}">
+      <Declaration><![CDATA[// The character used to separate logger entry fields.
+// [default] ','.
+// [get] Returns the delimter.
+// [set] Sets the delimiter.
+PROPERTY Delimiter : STRING(1)]]></Declaration>
+      <Get Name="Get" Id="{52d0affa-4ff3-0b09-2c52-06d76979b161}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[Delimiter := THIS^._sDelimiter;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{77845af1-122f-0b84-3cfd-3c4950f1cda5}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[THIS^._sDelimiter := Delimiter;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="FB_exit" Id="{54a3a68e-3b01-01ed-2302-97545d26a69e}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^.Close();]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{c724ded2-9460-0e4b-11ab-2f4d7def4683}">
+      <Declaration><![CDATA[{attribute 'hide'}
+METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains 	: BOOL; 	// if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode 	: BOOL;  	// if TRUE, the instance afterwards gets moved into the copy code (online change)
+	FilePath		: T_DiskLoggerPath;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[THIS^._FilePath := FilePath;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Flush" Id="{f8b1fa13-2faf-0760-28e7-5ec2c2aed697}">
+      <Declaration><![CDATA[// Flushes the file cache.
+METHOD Flush : I_ErrorLogger // Reference to the current instance of error logger.
+VAR_OUTPUT
+	bIsBusy 	: BOOL;				// Is the operation still executing?
+	Error 		: T_Error;			// Error produced by operation.
+END_VAR
+VAR
+	eResult 	: E_CodesysCmpError;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Flush := THIS^;
+
+IF NOT THIS^.IsOpen THEN RETURN; END_IF
+
+eResult := SysFile.SysFileFlush(THIS^._Handle);
+
+IF eResult = E_CodesysCmpError.ERR_OK THEN RETURN; end_if
+
+Error := F_CreateError(GVL_ErrorDescriptors.fbCodesysCmpErrors, eResult);]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="Invoke" Id="{59e699e2-7a12-01ea-1ac7-9de854c5852e}">
+      <Declaration><![CDATA[// Logs the provided error message.
+METHOD Invoke
+VAR_INPUT
+	ipError : I_Error;	 // The error message to be logged.
+END_VAR
+VAR_OUTPUT
+	bIsBusy : BOOL;		// Is the operation still executing?
+	Error 	: T_Error;	// Error produced by operation.
+END_VAR
+VAR
+	LoggedErrorMessage 	: T_MaxString;
+	nBytesWritten 		: __XWORD;
+	eResult 			: E_CodesysCmpError;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF ipError = 0 THEN
+	Error := F_CreateError(
+		GVL_ErrorDescriptors.fbCodesysCmpErrors,
+		E_CodesysCmpError.ERR_INVALID_INTERFACE);
+	RETURN;
+	END_IF
+
+// Open file if it's not open.
+IF NOT THIS^.IsOpen THEN 
+	THIS^.Open(bIsBusy => bIsBusy, Error => Error);
+	IF Error.IsRaised OR bIsBusy THEN RETURN; END_IF 
+	END_IF
+
+// Write to disk.
+nBytesWritten := SysFile.SysFileWrite(
+	THIS^._Handle, ADR(LoggedErrorMessage),
+	THIS^.CreateLogEntry(LoggedErrorMessage, ipError), ADR(eResult));
+
+// Check for errors.
+IF eResult <> E_CodesysCmpError.ERR_OK THEN 
+	Error := F_CreateError(GVL_ErrorDescriptors.fbCodesysCmpErrors, eResult);
+	END_IF
+	
+// Check if writter is busy.
+bIsBusy := Error.IsNotRaised AND nBytesWritten = 0;
+
+// Flush if not busy and auto-flush is enabled.
+IF NOT bIsBusy AND Error.IsNotRaised AND THIS^._bAutoFlush THEN 
+	eResult := SysFile.SysFileFlush(THIS^._Handle);
+	IF eResult <> E_CodesysCmpError.ERR_OK THEN 
+		Error := F_CreateError(GVL_ErrorDescriptors.fbCodesysCmpErrors, eResult);
+		END_IF
+	END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="IsOpen" Id="{ad810b2d-1ad8-01c7-0b67-c9787cf786d2}">
+      <Declaration><![CDATA[// Boolean flag indicating whether log file path is open.
+// [get] Returns TRUE if the file has been openned, FALSE otherwise.
+PROPERTY IsOpen : BOOL]]></Declaration>
+      <Get Name="Get" Id="{24c369ce-8831-0ff8-0559-61f448a803f7}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[IsOpen := THIS^._Handle <> SysTypes.RTS_INVALID_HANDLE;]]></ST>
+        </Implementation>
+      </Get>
+    </Property>
+    <Property Name="LineEnding" Id="{8797567b-2ab6-0047-16c4-1823649a5b9f}">
+      <Declaration><![CDATA[// The string used to terminate the error log entry.
+// [default] '$R$N'.
+// [get] Returns the line-ending.
+// [set] Sets the line-ending.
+PROPERTY LineEnding : STRING(1)]]></Declaration>
+      <Get Name="Get" Id="{c4dc78ff-af6e-03e0-18f6-774717db0796}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[LineEnding := THIS^._sLineEnding;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{ad0d6d5a-e96d-0805-047b-290fd214c47f}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[THIS^._sLineEnding := LineEnding;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+    <Method Name="Open" Id="{a9d72e4d-bcf0-02de-37fc-35cd2080eeee}">
+      <Declaration><![CDATA[// Opens logger file, creates it if it doesn't exist.
+METHOD Open : I_ErrorLogger // Reference to the current instance of error logger.
+VAR_OUTPUT
+	bIsBusy 	: BOOL;				// Is the operation still executing?
+	Error 		: T_Error;			// Error produced by operation.
+END_VAR
+VAR
+	eResult 	: E_CodesysCmpError;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Open := THIS^;
+
+IF THIS^.IsOpen THEN RETURN; END_IF
+
+THIS^._Handle := SysFile.SysFileOpen(THIS^._FilePath, SysFile.AM_APPEND_PLUS, ADR(eResult));
+
+Error := F_CreateError(GVL_ErrorDescriptors.fbCodesysCmpErrors, eResult);
+
+bIsBusy := Error.IsNotRaised AND THIS^._Handle = SysTypes.RTS_INVALID_HANDLE;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetDelimiter" Id="{c65adf51-c44e-0bc1-1c26-85c083bc7d41}">
+      <Declaration><![CDATA[// Sets the character used to separate logger entry fields.
+// [default] ','
+METHOD SetDelimiter : REFERENCE TO FB_DiskErrorLogger // Reference to the current instance of error logger.
+VAR_INPUT
+	sValue : STRING(1); // Delimiter character.
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SetDelimiter REF= THIS^;
+
+THIS^._sDelimiter := sValue;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetLineEnding" Id="{63b8a44c-8194-0cb7-2482-a4c3d39edc61}">
+      <Declaration><![CDATA[// Sets the value of the string used to terminate the error log entry.
+// [default] '$R$N'.
+METHOD SetLineEnding : REFERENCE TO FB_DiskErrorLogger // Reference to the current instance of error logger.
+VAR_INPUT
+	sValue : STRING(10); // Line ending characters.
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SetLineEnding REF= THIS^;
+
+THIS^._sLineEnding := sValue;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetTextQualifier" Id="{a52b0548-14a2-0775-08cd-329106d33ca7}">
+      <Declaration><![CDATA[// Sets the character used to enclose logger entry fields.
+// [default] '"'.
+METHOD SetTextQualifier : REFERENCE TO FB_DiskErrorLogger // Reference to the current instance of error logger.
+VAR_INPUT
+	sValue : STRING(1); // Text Qualifier character.
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SetTextQualifier REF= THIS^;
+
+THIS^._sTextQualifier := sValue;]]></ST>
+      </Implementation>
+    </Method>
+    <Property Name="TextQualifier" Id="{ee0f8a21-8469-0939-0690-bf6c7dcbe421}">
+      <Declaration><![CDATA[// The character used to enclose logger entry fields.
+// [default] '"'.
+// [get] Returns the text qualifier.
+// [set] Set the text qualifier.
+PROPERTY TextQualifier : STRING(1)]]></Declaration>
+      <Get Name="Get" Id="{ad0af364-8771-0250-2eeb-62ee922c13c8}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[TextQualifier := THIS^._sTextQualifier;]]></ST>
+        </Implementation>
+      </Get>
+      <Set Name="Set" Id="{a8611ce6-9a7f-0b5f-330d-ec7bdc6a8ced}">
+        <Declaration><![CDATA[VAR
+END_VAR
+]]></Declaration>
+        <Implementation>
+          <ST><![CDATA[THIS^._sTextQualifier := TextQualifier;]]></ST>
+        </Implementation>
+      </Set>
+    </Property>
+  </POU>
+</TcPlcObject>

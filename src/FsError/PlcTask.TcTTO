@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Task Name="PlcTask" Id="{7523d9b9-c717-4fa8-b39d-3b2373a7b4cf}">
+    <!--CycleTime in micro seconds.-->
+    <CycleTime>10000</CycleTime>
+    <Priority>20</Priority>
+    <PouCall>
+      <Name>PLAYGROUND</Name>
+    </PouCall>
+    <TaskFBGuid>{85698f43-c05a-450a-afdc-0e6edaaa9145}</TaskFBGuid>
+    <Fb_init>{2d11d3dd-4b7d-449a-a5b5-66fe9a4af905}</Fb_init>
+    <Fb_exit>{3bd13762-09fc-4780-9cd9-f484f770319a}</Fb_exit>
+    <CycleUpdate>{99def61f-0049-4405-9c92-7036b4eaac1a}</CycleUpdate>
+    <PostCycleUpdate>{ca829340-b6cb-44d2-90e5-d47c65e7b2a7}</PostCycleUpdate>
+  </Task>
+</TcPlcObject>

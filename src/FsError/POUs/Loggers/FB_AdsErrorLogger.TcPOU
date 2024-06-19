@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_AdsErrorLogger" Id="{e3261cce-a191-0fdb-3443-29aa35d6f53b}" SpecialFunc="None">
+    <Declaration><![CDATA[// Logs error to ADS logger.
+{attribute 'enable_dynamic_creation'}
+{attribute 'no_explicit_call' := 'direct call for this function block is not allowed'}
+FUNCTION_BLOCK FB_AdsErrorLogger IMPLEMENTS I_ErrorLogger
+VAR
+	_nMessageType : DWORD := Tc2_System.ADSLOG_MSGTYPE_ERROR;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="Invoke" Id="{bf5ae0ff-3486-0e68-25cc-704557a0fa6d}">
+      <Declaration><![CDATA[// Logs the provided error message.
+METHOD Invoke
+VAR_INPUT
+	ipError : I_Error;	 // The error message to be logged.
+END_VAR
+VAR_OUTPUT
+	bIsBusy : BOOL;		// Is the operation still executing?
+	Error 	: T_Error;	// Error produced by operation.
+END_VAR
+VAR
+	eResult 			: E_AdsReturnCode;
+	sDate, sTimeOfDay 	: STRING(24);
+	pDate, pTimeOfDay 	: POINTER TO STRING; 
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF ipError = 0 THEN
+	Error := F_CreateError(
+		GVL_ErrorDescriptors.fbAdsReturnCodes,
+		E_AdsReturnCode.ADSERR_DEVICE_INVALIDINTERFACE);
+	RETURN;
+	END_IF
+
+sDate 		:= TO_STRING(ipError.Timestamp.GetDate());
+sTimeOfDay 	:= TO_STRING(ipError.Timestamp.GetTimeOfDay());
+
+pDate := ADR(sDate[2]);
+pTimeOfDay := ADR(sTimeOfDay[4]);
+
+
+eResult := Tc2_System.ADSLOGSTR(
+	THIS^._nMessageType,
+	Tc2_Standard.CONCAT(
+			Tc2_Standard.CONCAT('Timestamp.: ', Tc2_Standard.CONCAT(pDate^, CONCAT(' ', pTimeOfDay^))), 
+			Tc2_Standard.CONCAT(' | Error Code.: %s | Message.: ', ipError.Message)),
+	TO_STRING(ipError.Code));
+
+IF eResult <> 0 THEN 
+	Error := F_CreateError(
+		GVL_ErrorDescriptors.fbAdsReturnCodes,
+		eResult);
+	END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="SetMessageType" Id="{478214d3-babb-00c4-075b-7d5823607d40}">
+      <Declaration><![CDATA[// Determines how the messages should be logged.
+// A list of all the control masks for message output currently implemented as global constants in the Tc2_System library.
+// See description of the function ADSLOGDINT on infosys under the Tc2_System section.
+METHOD SetMessageType : I_ErrorLogger // Reference to the current instance of I_ErrorLogger
+VAR_INPUT
+	nMessageType : DWORD := Tc2_System.ADSLOG_MSGTYPE_ERROR; // Control mask which determines the type and effect of the message output
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[SetMessageType := THIS^;
+
+THIS^._nMessageType := nMessageType;]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

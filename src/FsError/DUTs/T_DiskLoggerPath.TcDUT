@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <DUT Name="T_DiskLoggerPath" Id="{4374c226-db05-0521-3feb-7cbb42f6de32}">
+    <Declaration><![CDATA[TYPE T_DiskLoggerPath : STRING(PARAM_Constants.DISK_LOGGER_PATH_LENGTH); END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

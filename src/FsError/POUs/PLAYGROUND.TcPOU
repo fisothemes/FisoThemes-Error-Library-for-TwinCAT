@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="PLAYGROUND" Id="{6d1a571d-7ad8-49d2-8c97-3cb81d17996a}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'no_explicit_call' := 'direct call for this program is not allowed'} 
+PROGRAM INTERNAL PLAYGROUND
+VAR
+	sDate 			: T_ErrorMessage;
+	nTimestamp 		: ULINT;
+	nSize 			: LINT;
+	bCreate,
+	bLog 			: BOOL;
+	Err 			: T_Error;
+	fbWithAdsLogger : FB_AdsErrorLogger;
+	fbToDisk		: FB_DiskErrorLogger('C:\temp\errlog.csv');
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[nSize := SIZEOF(Err);
+
+IF bCreate THEN 
+	bCreate := FALSE;
+	Err := F_CreateError(GVL_ErrorDescriptors.fbAdsReturnCodes,
+						 E_AdsReturnCode.ADSERR_DEVICE_EXISTS);
+	END_IF
+
+IF bLog THEN
+	Err.LogMessage(fbToDisk, bIsBusy => bLog);
+	END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

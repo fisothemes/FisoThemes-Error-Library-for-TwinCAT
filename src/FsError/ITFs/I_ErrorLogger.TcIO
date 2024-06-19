@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <Itf Name="I_ErrorLogger" Id="{2a6c0c04-196a-0850-13cc-02c2e4d81abb}">
+    <Declaration><![CDATA[// This interface represents a logger for error messages.
+INTERFACE I_ErrorLogger EXTENDS __SYSTEM.IQueryInterface
+]]></Declaration>
+    <Method Name="Invoke" Id="{fe10df30-9b43-0b6f-3ff3-133dc5932ce3}">
+      <Declaration><![CDATA[// Logs the provided error message.
+METHOD Invoke
+VAR_INPUT
+	ipError : I_Error;	 // The error message to be logged.
+END_VAR
+VAR_OUTPUT
+	bIsBusy : BOOL;		// Is the operation still executing?
+	Error 	: T_Error;	// Error produced by operation.
+END_VAR]]></Declaration>
+    </Method>
+  </Itf>
+</TcPlcObject>

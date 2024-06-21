@@ -42,6 +42,9 @@
     <Compile Include="DUTs\E_CodesysCmpError.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\E_GeneralErrorCode.TcTLEO">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\T_DiskLoggerPath.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -81,6 +84,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Error Descriptors\FB_AdsReturnCodesDescriptor.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Error Descriptors\FB_GeneralCodesDescriptor.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Error Descriptors\FB_CodesysCmpErrorDescriptor.TcPOU">
@@ -174,6 +180,11 @@
     <LibraryReference Include="SysTypes2 Interfaces,newest,System">
       <Namespace>SysTypes</Namespace>
     </LibraryReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FsError.tmc">
+      <SubType>Content</SubType>
+    </None>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

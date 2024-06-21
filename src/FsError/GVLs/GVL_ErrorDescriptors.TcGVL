@@ -3,8 +3,9 @@
   <GVL Name="GVL_ErrorDescriptors" Id="{57a2c220-9d32-060d-080f-565a02024d11}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	fbCodesysCmpErrors 	: FB_CodesysCmpErrorDescriptor;
 	fbAdsReturnCodes	: FB_AdsReturnCodesDescriptor;
+	fbCodesysCmpErrors 	: FB_CodesysCmpErrorDescriptor;
+	fbGeneralErrorCodes	: FB_GeneralCodesDescriptor;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

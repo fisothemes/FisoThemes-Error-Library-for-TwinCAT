@@ -8,11 +8,11 @@
 FUNCTION_BLOCK FB_DiskErrorLogger IMPLEMENTS I_ErrorLogger
 VAR
 	_FilePath 		: T_DiskLoggerPath;
-	_Handle 		: SysTypes.RTS_IEC_HANDLE := SysTypes.RTS_INVALID_HANDLE;
-	_bAutoFlush		: BOOL 			:= TRUE;
-	_sDelimiter 	: STRING(1) 	:= ',';
-	_sTextQualifier : STRING(1) 	:= '"';
-	_sLineEnding 	: STRING(10) 	:= '$R$N';
+	_Handle 		: SysTypes.RTS_IEC_HANDLE 	:= SysTypes.RTS_INVALID_HANDLE;
+	_bAutoFlush		: BOOL 						:= TRUE;
+	_sDelimiter 	: STRING(1) 				:= ',';
+	_sTextQualifier : STRING(1) 				:= '"';
+	_sLineEnding 	: STRING(10) 				:= '$R$N';
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -52,8 +52,12 @@ VAR
 	eResult 	: E_CodesysCmpError;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[Error := F_CreateError(	GVL_ErrorDescriptors.fbCodesysCmpErrors,
-						SysFile.SysFileClose(THIS^._Handle));]]></ST>
+        <ST><![CDATA[eResult := SysFile.SysFileClose(THIS^._Handle);
+
+IF eResult = E_CodesysCmpError.ERR_OK THEN RETURN; END_IF
+
+Error := F_CreateError(	GVL_ErrorDescriptors.fbGeneralErrorCodes,
+					E_GeneralErrorCode.ERR_CODESYS_BEGIN + eResult);]]></ST>
       </Implementation>
     </Method>
     <Method Name="CreateLogEntry" Id="{a64b81cf-7222-08ce-2b93-1933ad3b8e24}" FolderPath="Internal\">
@@ -104,6 +108,7 @@ WHILE sTimeOfDay[4 + nIndex] <> 0 DO
 	END_WHILE
 	
 // Append timestamp end text qualifier.
+nCursor := nCursor + 1;
 LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sTextQualifier[0];
 
 // Append delimiter.
@@ -229,7 +234,8 @@ eResult := SysFile.SysFileFlush(THIS^._Handle);
 
 IF eResult = E_CodesysCmpError.ERR_OK THEN RETURN; end_if
 
-Error := F_CreateError(GVL_ErrorDescriptors.fbCodesysCmpErrors, eResult);]]></ST>
+Error := F_CreateError(	GVL_ErrorDescriptors.fbGeneralErrorCodes,
+						E_GeneralErrorCode.ERR_CODESYS_BEGIN + eResult);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Invoke" Id="{59e699e2-7a12-01ea-1ac7-9de854c5852e}">
@@ -250,8 +256,8 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[IF ipError = 0 THEN
 	Error := F_CreateError(
-		GVL_ErrorDescriptors.fbCodesysCmpErrors,
-		E_CodesysCmpError.ERR_INVALID_INTERFACE);
+		GVL_ErrorDescriptors.fbGeneralErrorCodes,
+		E_GeneralErrorCode.ERR_INVALID_INTERFACE);
 	RETURN;
 	END_IF
 
@@ -268,7 +274,9 @@ nBytesWritten := SysFile.SysFileWrite(
 
 // Check for errors.
 IF eResult <> E_CodesysCmpError.ERR_OK THEN 
-	Error := F_CreateError(GVL_ErrorDescriptors.fbCodesysCmpErrors, eResult);
+	Error := F_CreateError(
+		GVL_ErrorDescriptors.fbGeneralErrorCodes, 
+		E_GeneralErrorCode.ERR_CODESYS_BEGIN + eResult);
 	END_IF
 	
 // Check if writter is busy.
@@ -278,7 +286,9 @@ bIsBusy := Error.IsNotRaised AND nBytesWritten = 0;
 IF NOT bIsBusy AND Error.IsNotRaised AND THIS^._bAutoFlush THEN 
 	eResult := SysFile.SysFileFlush(THIS^._Handle);
 	IF eResult <> E_CodesysCmpError.ERR_OK THEN 
-		Error := F_CreateError(GVL_ErrorDescriptors.fbCodesysCmpErrors, eResult);
+		Error := F_CreateError(
+			GVL_ErrorDescriptors.fbGeneralErrorCodes, 
+			E_GeneralErrorCode.ERR_CODESYS_BEGIN + eResult);
 		END_IF
 	END_IF]]></ST>
       </Implementation>
@@ -336,9 +346,14 @@ IF THIS^.IsOpen THEN RETURN; END_IF
 
 THIS^._Handle := SysFile.SysFileOpen(THIS^._FilePath, SysFile.AM_APPEND_PLUS, ADR(eResult));
 
-Error := F_CreateError(GVL_ErrorDescriptors.fbCodesysCmpErrors, eResult);
+bIsBusy := eResult = E_CodesysCmpError.ERR_OK AND THIS^._Handle = SysTypes.RTS_INVALID_HANDLE;
 
-bIsBusy := Error.IsNotRaised AND THIS^._Handle = SysTypes.RTS_INVALID_HANDLE;]]></ST>
+IF bIsBusy OR eResult = E_CodesysCmpError.ERR_OK THEN RETURN; END_IF
+
+Error := F_CreateError(	GVL_ErrorDescriptors.fbGeneralErrorCodes,
+						E_GeneralErrorCode.ERR_CODESYS_BEGIN + eResult);
+
+]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetDelimiter" Id="{c65adf51-c44e-0bc1-1c26-85c083bc7d41}">

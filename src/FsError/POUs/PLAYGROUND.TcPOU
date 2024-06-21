@@ -9,22 +9,25 @@ VAR
 	nSize 			: LINT;
 	bCreate,
 	bLog 			: BOOL;
-	Err 			: T_Error;
+	Err				: T_Error;
 	fbWithAdsLogger : FB_AdsErrorLogger;
 	fbToDisk		: FB_DiskErrorLogger('C:\temp\errlog.csv');
+END_VAR
+VAR_TEMP
+	DiskLogErr 		: T_Error;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[nSize := SIZEOF(Err);
 
 IF bCreate THEN 
 	bCreate := FALSE;
-	Err := F_CreateError(GVL_ErrorDescriptors.fbAdsReturnCodes,
-						 E_AdsReturnCode.ADSERR_DEVICE_EXISTS);
+	Err := F_CreateError(GVL_ErrorDescriptors.fbGeneralErrorCodes,
+						 E_GeneralErrorCode.ERR_ADS_RETURN_CODE_BEGIN + E_AdsReturnCode.ADSERR_DEVICE_INVALIDCONTEXT);
 	END_IF
 
-IF bLog THEN
-	Err.LogMessage(fbToDisk, bIsBusy => bLog);
-	END_IF]]></ST>
+IF bLog THEN Err.LogMessage(fbToDisk, bIsBusy => bLog, Error => DiskLogErr); END_IF
+	
+IF DiskLogErr.IsRaised THEN DiskLogErr.LogMessage(fbWithAdsLogger); END_IF]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

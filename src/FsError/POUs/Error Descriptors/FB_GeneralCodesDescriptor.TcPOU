@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_GeneralCodesDescriptor" Id="{cf6e9f3e-ae9e-0cca-007b-feaac4514aca}" SpecialFunc="None">
+    <Declaration><![CDATA[// Descriptor for ADS errors codes.
+// Provides description for errors.
+{attribute 'no_assign'}
+{attribute 'enable_dynamic_creation'}
+{attribute 'no_explicit_call' := 'direct call for this function block is not allowed'}
+FUNCTION_BLOCK FINAL FB_GeneralCodesDescriptor IMPLEMENTS I_ErrorDescriptor
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[]]></ST>
+    </Implementation>
+    <Method Name="GetDescription" Id="{ac6baf3d-e211-0ee3-095d-38c00b83cf66}">
+      <Declaration><![CDATA[// Retrieves the descriptive message for the specified error code.
+METHOD GetDescription : T_ErrorMessage // The descriptive message corresponding to the provided error code.
+VAR_INPUT
+	Code : T_ErrorCode; // The error code for which the description is to be retrieved.
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE Code OF
+    // No error
+    E_GeneralErrorCode.ERR_NO_ERROR:                       GetDescription := 'No error.';
+
+    // General Errors (1-99)
+    E_GeneralErrorCode.ERR_GENERAL_ERROR:                   GetDescription := 'General error - To be used only for internal errors.';
+    E_GeneralErrorCode.ERR_INVALID_PARAMETER:               GetDescription := 'Invalid parameter for this operation.';
+    E_GeneralErrorCode.ERR_NOT_INITIALIZED:                 GetDescription := 'Function cannot be executed since the component has not been initialized yet. It may work later, though.';
+    E_GeneralErrorCode.ERR_VERSION_CONFLICT:                GetDescription := 'Version conflict.';
+
+    // Overflow Errors (100-119)
+    E_GeneralErrorCode.ERR_INTEGER_OVERFLOW:                GetDescription := 'Integer overflow.';
+    E_GeneralErrorCode.ERR_BUFFER_OVERFLOW:                 GetDescription := 'Buffer overflow.';
+    E_GeneralErrorCode.ERR_STACK_OVERFLOW:                  GetDescription := 'Stack overflow.';
+    E_GeneralErrorCode.ERR_HEAP_OVERFLOW:                   GetDescription := 'Heap overflow.';
+
+    // Buffer Errors (120-139)
+    E_GeneralErrorCode.ERR_NO_BUFFER:                       GetDescription := 'No buffer available.';
+    E_GeneralErrorCode.ERR_BUFFER_UNDERFLOW:                GetDescription := 'Buffer underflow.';
+    E_GeneralErrorCode.ERR_BUFFER_FULL:                     GetDescription := 'Buffer is full.';
+
+    // Configuration and Settings Errors (140-159)
+    E_GeneralErrorCode.ERR_INVALID_CONFIGURATION:           GetDescription := 'Invalid configuration or settings.';
+    E_GeneralErrorCode.ERR_CONFIGURATION_MISSING:           GetDescription := 'Required configuration setting or parameter is missing.';
+
+    // Network Errors (200-249)
+    E_GeneralErrorCode.ERR_NETWORK_ERROR:                   GetDescription := 'Network communication or connectivity issues.';
+    E_GeneralErrorCode.ERR_TIMEOUT_CONNECT:                 GetDescription := 'Connection timeout.';
+    E_GeneralErrorCode.ERR_TIMEOUT_READ:                    GetDescription := 'Read timeout.';
+    E_GeneralErrorCode.ERR_TIMEOUT_WRITE:                   GetDescription := 'Write timeout.';
+    E_GeneralErrorCode.ERR_UNSUPPORTED_FORMAT:              GetDescription := 'Unsupported data format.';
+    E_GeneralErrorCode.ERR_TOO_MANY_REQUESTS:               GetDescription := 'Too many requests or actions in a short period.';
+
+    // Stream Errors (250-299)
+    E_GeneralErrorCode.ERR_STREAM_ERROR:                    GetDescription := 'Generic stream error.';
+    E_GeneralErrorCode.ERR_STREAM_NOT_FOUND:                GetDescription := 'Stream not found.';
+    E_GeneralErrorCode.ERR_STREAM_READ_FAILED:              GetDescription := 'Stream read operation failed.';
+    E_GeneralErrorCode.ERR_STREAM_WRITE_FAILED:             GetDescription := 'Stream write operation failed.';
+    E_GeneralErrorCode.ERR_STREAM_PERMISSION_DENIED:        GetDescription := 'Stream operation permission denied.';
+    E_GeneralErrorCode.ERR_STREAM_ALREADY_EXISTS:           GetDescription := 'Stream already exists.';
+
+    // Resource Errors (300-339)
+    E_GeneralErrorCode.ERR_NOT_FOUND:                       GetDescription := 'The resource has not been found.';
+    E_GeneralErrorCode.ERR_PERMISSION_DENIED:               GetDescription := 'Permission denied.';
+    E_GeneralErrorCode.ERR_DATA_NOT_AVAILABLE:              GetDescription := 'Requested data is not available.';
+    E_GeneralErrorCode.ERR_OUT_OF_BOUNDS:                   GetDescription := 'Value is outside the valid range.';
+    E_GeneralErrorCode.ERR_DATA_CORRUPTED:                  GetDescription := 'Data corruption or integrity issues.';
+    E_GeneralErrorCode.ERR_INVALID_INTERFACE:               GetDescription := 'Invalid or unknown interface.';
+    E_GeneralErrorCode.ERR_INVALID_REFERENCE:               GetDescription := 'Dereferencing an IEC reference in IecVarAccess failed due to an invalid destination address, e.g., NULL.';
+    E_GeneralErrorCode.ERR_INVALID_POINTER:                 GetDescription := 'Invalid pointer.';
+    E_GeneralErrorCode.ERR_INVALID_HANDLE:                  GetDescription := 'Invalid handle to an object.';
+    E_GeneralErrorCode.ERR_MIN_LIMIT_EXCEEDED:              GetDescription := 'Specified minimum-limit of the resource exceeded.';
+    E_GeneralErrorCode.ERR_MAX_LIMIT_EXCEEDED:              GetDescription := 'Specified maximum-limit of the resource exceeded.';
+    E_GeneralErrorCode.ERR_DUPLICATE:                       GetDescription := 'The resource already exists.';
+
+    // Hardware Errors (400-449)
+    E_GeneralErrorCode.ERR_HARDWARE_FAILURE:                GetDescription := 'Hardware malfunctions or failures.';
+
+    // Resource Management Errors (500-549)
+    E_GeneralErrorCode.ERR_RESOURCE_BUSY:                   GetDescription := 'Resource is currently in use and cannot be accessed.';
+    E_GeneralErrorCode.ERR_RESOURCE_LOCKED:                 GetDescription := 'Resource is locked and cannot be accessed.';
+
+    // State and Operation Errors (600-649)
+    E_GeneralErrorCode.ERR_INVALID_STATE:                   GetDescription := 'Invalid state for the requested operation.';
+    E_GeneralErrorCode.ERR_INVALID_OPERATION:               GetDescription := 'Requested operation is not allowed or valid in the current context.';
+    E_GeneralErrorCode.ERR_OPERATION_TIMEOUT:               GetDescription := 'Operation timed out.';
+    E_GeneralErrorCode.ERR_OPERATION_FAILED:                GetDescription := 'Operation failed.';
+
+    // Service and API Errors (700-749)
+    E_GeneralErrorCode.ERR_EXTERNAL_SERVICE_FAILURE:        GetDescription := 'Failure in an external service or API';
+    E_GeneralErrorCode.ERR_UNAVAILABLE_SERVICE:             GetDescription := 'Required service or component is not available';
+
+    // Data Conversion Errors (800-849)
+    E_GeneralErrorCode.ERR_INVALID_INPUT:                   GetDescription := 'Invalid or unexpected input provided.';
+    E_GeneralErrorCode.ERR_INVALID_CONVERSION:              GetDescription := 'Invalid data conversion.';
+    E_GeneralErrorCode.ERR_INVALID_COMPARISON:              GetDescription := 'Invalid comparison.';
+    E_GeneralErrorCode.ERR_TYPE_MISMATCH:                   GetDescription := 'Type mismatch.';
+    E_GeneralErrorCode.ERR_SIZE_MISMATCH:                   GetDescription := 'Size mismatch.';
+
+    // Security Errors (900-949)
+    E_GeneralErrorCode.ERR_SECURITY_CHECKS_FAILED:          GetDescription := 'Some security checks have failed. (Generic error for reporting over public channels).';
+    E_GeneralErrorCode.ERR_AUTHENTICATION_FAILED:           GetDescription := 'Authentication process failed.';
+    E_GeneralErrorCode.ERR_AUTHORIZATION_FAILED:            GetDescription := 'Authorization failed due to insufficient permissions.';
+
+    // Memory Errors (1000-1049)
+    E_GeneralErrorCode.ERR_MEMORY_ALLOCATION_FAILED:        GetDescription := 'Memory allocation failed.';
+    E_GeneralErrorCode.ERR_INSUFFICIENT_MEMORY:             GetDescription := 'Insufficient memory to carry out the request.';
+	E_GeneralErrorCode.ERR_INSUFFICIENT_MEMORY_FULL:		GetDescription := 'Memory full.';
+
+    // File Errors (1100-1149)
+    E_GeneralErrorCode.ERR_FILE_NOT_FOUND:                  GetDescription := 'The specified file was not found.';
+    E_GeneralErrorCode.ERR_FILE_READ_FAILED:                GetDescription := 'File read operation failed.';
+    E_GeneralErrorCode.ERR_FILE_WRITE_FAILED:               GetDescription := 'File write operation failed.';
+    E_GeneralErrorCode.ERR_FILE_PERMISSION_DENIED:          GetDescription := 'File operation permission denied.';
+    E_GeneralErrorCode.ERR_FILE_ALREADY_EXISTS:             GetDescription := 'File already exists.';
+    E_GeneralErrorCode.ERR_FILE_TOO_LARGE:                  GetDescription := 'File size exceeds the maximum allowed size.';
+    E_GeneralErrorCode.ERR_FILE_FORMAT_UNSUPPORTED:         GetDescription := 'Unsupported file format.';
+
+    // Directory Errors (1150-1199)
+    E_GeneralErrorCode.ERR_DIRECTORY_NOT_FOUND:             GetDescription := 'The specified directory was not found.';
+    E_GeneralErrorCode.ERR_DIRECTORY_READ_FAILED:           GetDescription := 'Directory read operation failed.';
+    E_GeneralErrorCode.ERR_DIRECTORY_WRITE_FAILED:          GetDescription := 'Directory write operation failed.';
+    E_GeneralErrorCode.ERR_DIRECTORY_PERMISSION_DENIED:     GetDescription := 'Directory operation permission denied.';
+    E_GeneralErrorCode.ERR_DIRECTORY_NOT_EMPTY:             GetDescription := 'Directory is not empty.';
+    E_GeneralErrorCode.ERR_DIRECTORY_ALREADY_EXISTS:        GetDescription := 'Directory already exists.';
+
+    // Cache Errors (1200-1249)
+    E_GeneralErrorCode.ERR_CACHE_MISS:                      GetDescription := 'Cache miss occurred.';
+    E_GeneralErrorCode.ERR_CACHE_WRITE_FAILED:              GetDescription := 'Cache write operation failed.';
+
+    // Serialization/Deserialization Errors (1300-1349)
+    E_GeneralErrorCode.ERR_SERIALIZATION_FAILED:            GetDescription := 'Data serialization failed.';
+    E_GeneralErrorCode.ERR_DESERIALIZATION_FAILED:          GetDescription := 'Data deserialization failed.';
+
+    // Threading and Concurrency Errors (1400-1449)
+    E_GeneralErrorCode.ERR_THREAD_CREATION_FAILED:          GetDescription := 'Thread creation failed.';
+    E_GeneralErrorCode.ERR_DEADLOCK_DETECTED:               GetDescription := 'Deadlock detected.';
+    E_GeneralErrorCode.ERR_CONCURRENCY_VIOLATION:           GetDescription := 'Concurrency violation.';
+
+    // Protocol Errors (1500-1549)
+    E_GeneralErrorCode.ERR_PROTOCOL_VIOLATION:              GetDescription := 'Protocol violation detected.';
+    E_GeneralErrorCode.ERR_UNSUPPORTED_PROTOCOL:            GetDescription := 'Unsupported protocol.';
+
+    // User Errors (1600-1699)
+    E_GeneralErrorCode.ERR_USER_INPUT_INVALID:              GetDescription := 'User input is invalid or malformed.';
+    E_GeneralErrorCode.ERR_USER_INPUT_TOO_LONG:             GetDescription := 'User input exceeds maximum allowed length.';
+    E_GeneralErrorCode.ERR_USER_INPUT_TOO_SHORT:            GetDescription := 'User input is shorter than the minimum required length.';
+    E_GeneralErrorCode.ERR_USER_AUTHENTICATION_FAILED:      GetDescription := 'User authentication failed.';
+    E_GeneralErrorCode.ERR_USER_AUTHORIZATION_FAILED:       GetDescription := 'User is not authorized to perform this action.';
+	E_GeneralErrorCode.ERR_USER_ACCOUNT_LOCKED:             GetDescription := 'User account is locked.';
+    E_GeneralErrorCode.ERR_USER_ACCOUNT_DISABLED:           GetDescription := 'User account is disabled.';
+    E_GeneralErrorCode.ERR_USER_SESSION_EXPIRED:            GetDescription := 'User session has expired.';
+    E_GeneralErrorCode.ERR_USER_ALREADY_EXISTS:             GetDescription := 'User already exists.';
+    E_GeneralErrorCode.ERR_USER_NOT_FOUND:                  GetDescription := 'User not found.';
+    E_GeneralErrorCode.ERR_USER_CANCELLED:                  GetDescription := 'User cancelled the operation or action.';
+
+    // Internal additional errors (5000-5099)
+    E_GeneralErrorCode.ERR_NOTHING_TO_DO:                   GetDescription := 'Operation has nothing to do. No execution.';
+    E_GeneralErrorCode.ERR_FUNCTION_NOT_SUPPORTED:          GetDescription := 'Functionality not supported.';
+
+    // Custom errors (10000-99999)
+    E_GeneralErrorCode.ERR_CUSTOM_ERROR_BEGIN
+	..E_GeneralErrorCode.ERR_CUSTOM_ERROR_END:              GetDescription := Tc2_Standard.CONCAT(
+																				'Custom error code: ',
+																				Tc2_Standard.CONCAT(TO_STRING(Code),'.'));
+	
+	// Codesys errors (10000-99999)
+	E_GeneralErrorCode.ERR_CODESYS_BEGIN
+	..E_GeneralErrorCode.ERR_CODESYS_END:					GetDescription := Tc2_Standard.CONCAT(
+																				'Codesys cmp error code: ', 
+																				GVL_ErrorDescriptors
+																					.fbCodesysCmpErrors
+																					.GetDescription(Code - E_GeneralErrorCode.ERR_CODESYS_BEGIN));
+ELSE
+    // Because there's a bug with the case state, where it can't read values over 1 million.
+	IF Code > E_GeneralErrorCode.ERR_ADS_RETURN_CODE_BEGIN AND Code < E_GeneralErrorCode.ERR_ADS_RETURN_CODE_END THEN
+		// ADS errors (1,000,000,000-...)
+		GetDescription := Tc2_Standard.CONCAT(
+			'ADS return code: ',
+			GVL_ErrorDescriptors.fbAdsReturnCodes.GetDescription(Code - E_GeneralErrorCode.ERR_ADS_RETURN_CODE_BEGIN));
+	ELSE
+		GetDescription := Tc2_Standard.CONCAT('Unknown general error code: ', Tc2_Standard.CONCAT(TO_STRING(Code), '.'));
+		END_IF
+	END_CASE]]></ST>
+      </Implementation>
+    </Method>
+  </POU>
+</TcPlcObject>

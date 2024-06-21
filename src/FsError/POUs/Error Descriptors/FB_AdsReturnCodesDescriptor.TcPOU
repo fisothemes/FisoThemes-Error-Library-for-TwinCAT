@@ -25,7 +25,7 @@ END_VAR]]></Declaration>
     E_AdsReturnCode.ERR_INTERNAL:						GetDescription := 'Internal error.';
     E_AdsReturnCode.ERR_NORTIME:						GetDescription := 'No real-time.';
     E_AdsReturnCode.ERR_ALLOCLOCKEDMEM:					GetDescription := 'Allocation locked – memory error.';
-    E_AdsReturnCode.ERR_INSERTMAILBOX:					GetDescription := 'Mailbox full – the ADS message could not be sent. Reducing the number of ADS messages per cycle will help.';
+    E_AdsReturnCode.ERR_INSERTMAILBOX:					GetDescription := 'Mailbox full - the ADS message could not be sent. Reducing the number of ADS messages per cycle will help.';
     E_AdsReturnCode.ERR_WRONGRECEIVEHMSG:				GetDescription := 'Wrong HMSG.';
     E_AdsReturnCode.ERR_TARGETPORTNOTFOUND:				GetDescription := 'Target port not found – ADS server is not started or is not reachable.';
     E_AdsReturnCode.ERR_TARGETMACHINENOTFOUND:			GetDescription := 'Target computer not found – AMS route was not found.';
@@ -50,8 +50,8 @@ END_VAR]]></Declaration>
     E_AdsReturnCode.ERR_TCPSEND:						GetDescription := 'TCP send error.';
     E_AdsReturnCode.ERR_HOSTUNREACHABLE:				GetDescription := 'Host unreachable.';
     E_AdsReturnCode.ERR_INVALIDAMSFRAGMENT:				GetDescription := 'Invalid AMS fragment.';
-    E_AdsReturnCode.ERR_TLSSEND:						GetDescription := 'TLS send error – secure ADS connection failed.';
-    E_AdsReturnCode.ERR_ACCESSDENIED:					GetDescription := 'Access denied – secure ADS access denied.';
+    E_AdsReturnCode.ERR_TLSSEND:						GetDescription := 'TLS send error - secure ADS connection failed.';
+    E_AdsReturnCode.ERR_ACCESSDENIED:					GetDescription := 'Access denied - secure ADS access denied.';
     E_AdsReturnCode.ROUTERERR_NOLOCKEDMEMORY:			GetDescription := 'Locked memory cannot be allocated.';
     E_AdsReturnCode.ROUTERERR_RESIZEMEMORY:				GetDescription := 'The router memory size could not be changed.';
     E_AdsReturnCode.ROUTERERR_MAILBOXFULL:				GetDescription := 'The mailbox has reached the maximum number of possible messages.';
@@ -129,7 +129,7 @@ END_VAR]]></Declaration>
     E_AdsReturnCode.ADSERR_CLIENT_LISTEMPTY:			GetDescription := 'Polling list is empty.';
     E_AdsReturnCode.ADSERR_CLIENT_VARUSED:				GetDescription := 'Var connection already in use.';
     E_AdsReturnCode.ADSERR_CLIENT_DUPLINVOKEID:			GetDescription := 'The called ID is already in use.';
-    E_AdsReturnCode.ADSERR_CLIENT_SYNCTIMEOUT:			GetDescription := 'Timeout has occurred – the remote terminal is not responding in the specified ADS timeout. The route setting of the remote terminal may be configured incorrectly.';
+    E_AdsReturnCode.ADSERR_CLIENT_SYNCTIMEOUT:			GetDescription := 'Timeout has occurred - the remote terminal is not responding in the specified ADS timeout. The route setting of the remote terminal may be configured incorrectly.';
     E_AdsReturnCode.ADSERR_CLIENT_W32ERROR:				GetDescription := 'Error in Win32 subsystem.';
     E_AdsReturnCode.ADSERR_CLIENT_TIMEOUTINVALID:		GetDescription := 'Invalid client timeout value.';
     E_AdsReturnCode.ADSERR_CLIENT_PORTNOTOPEN:			GetDescription := 'Port not open.';

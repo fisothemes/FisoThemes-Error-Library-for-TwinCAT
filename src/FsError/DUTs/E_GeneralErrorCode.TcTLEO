@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <EnumerationTextList Name="E_GeneralErrorCode" Id="{eca9b84b-1d9e-0533-085e-c4793eb4a0c3}">
+    <Declaration><![CDATA[// List of general error codes used in a system.
+{attribute 'qualified_only'}
+{attribute 'to_string'}
+TYPE E_GeneralErrorCode :
+(
+	{region "General Errors (1-99)"}
+	ERR_NO_ERROR                    := 0,      // No error.
+	ERR_GENERAL_ERROR               := 1,      // General error - To be used only for internal errors
+	ERR_INVALID_PARAMETER           := 2,      // Invalid parameter for this operation
+	ERR_NOT_INITIALIZED             := 3,      // Function cannot be executed since the component has not been initialized yet. It may work later, though
+	ERR_VERSION_CONFLICT            := 4,      // Version conflict
+	{endregion}
+	
+	{region "Overflow Errors (100-119)"}
+	ERR_INTEGER_OVERFLOW            := 100,    // Integer overflow
+	ERR_BUFFER_OVERFLOW             := 101,    // Buffer overflow
+	ERR_STACK_OVERFLOW              := 102,    // Stack overflow
+	ERR_HEAP_OVERFLOW               := 103,    // Heap overflow
+	{endregion}
+	
+	{region "Buffer Errors (120-139)"}
+	ERR_NO_BUFFER                   := 120,    // No buffer available
+	ERR_BUFFER_UNDERFLOW            := 121,    // Buffer underflow
+	ERR_BUFFER_FULL                 := 123,    // Buffer is full
+	{endregion}
+	
+	{region "Configuration and Settings Errors (140-159)"}
+	ERR_INVALID_CONFIGURATION       := 140,    // Invalid configuration or settings
+	ERR_CONFIGURATION_MISSING       := 141,    // Required configuration setting or parameter is missing
+	{endregion}
+	
+	{region "Network Errors (200-249)"}
+	ERR_NETWORK_ERROR               := 200,    // Network communication or connectivity issues
+	ERR_TIMEOUT_CONNECT             := 201,    // Connection timeout
+	ERR_TIMEOUT_READ                := 202,    // Read timeout
+	ERR_TIMEOUT_WRITE               := 203,    // Write timeout
+	ERR_UNSUPPORTED_FORMAT          := 204,    // Unsupported data format
+	ERR_TOO_MANY_REQUESTS           := 205,    // Too many requests or actions in a short period
+	{endregion}
+	
+	{region "Stream Errors (250-299)"}
+	ERR_STREAM_ERROR                := 250,    // Generic stream error
+	ERR_STREAM_NOT_FOUND            := 251,    // Stream not found
+	ERR_STREAM_READ_FAILED          := 252,    // Stream read operation failed
+	ERR_STREAM_WRITE_FAILED         := 253,    // Stream write operation failed
+	ERR_STREAM_PERMISSION_DENIED    := 254,    // Stream operation permission denied
+	ERR_STREAM_ALREADY_EXISTS       := 255,    // Stream already exists
+	{endregion}
+	
+	{region "Resource Errors (300-339)"}
+	ERR_NOT_FOUND                   := 300,    // The resource has not been found
+	ERR_PERMISSION_DENIED           := 301,    // Permission denied
+	ERR_DATA_NOT_AVAILABLE          := 302,    // Requested data is not available
+	ERR_OUT_OF_BOUNDS               := 303,    // Value is outside the valid range
+	ERR_DATA_CORRUPTED              := 304,    // Data corruption or integrity issues
+	ERR_INVALID_INTERFACE           := 305,    // Invalid or unknown interface
+	ERR_INVALID_REFERENCE           := 306,    // Dereferencing an IEC reference in IecVarAccess failed due to an invalid destination address, e.g., NULL.
+	ERR_INVALID_POINTER             := 307,    // Invalid pointer
+	ERR_INVALID_HANDLE              := 308,    // Invalid handle to an object
+	ERR_MIN_LIMIT_EXCEEDED          := 309,    // Specified minimum-limit of the resource exceeded
+	ERR_MAX_LIMIT_EXCEEDED          := 310,    // Specified maximum-limit of the resource exceeded
+	ERR_DUPLICATE                   := 311,    // The resource already exists
+	{endregion}
+	
+	{region "Hardware Errors (400-449)"}
+	ERR_HARDWARE_FAILURE            := 400,    // Hardware malfunctions or failures
+	{endregion}
+	
+	{region "Resource Management Errors (500-549)"}
+	ERR_RESOURCE_BUSY               := 500,    // Resource is currently in use and cannot be accessed
+	ERR_RESOURCE_LOCKED             := 501,    // Resource is locked and cannot be accessed
+	{endregion}
+	
+	{region "State and Operation Errors (600-649)"}
+	ERR_INVALID_STATE               := 600,    // Invalid state for the requested operation
+	ERR_INVALID_OPERATION           := 601,    // Requested operation is not allowed or valid in the current context
+	ERR_OPERATION_TIMEOUT           := 602,    // Operation timed out
+	ERR_OPERATION_FAILED            := 603,    // Operation failed
+	{endregion}
+	
+	{region "Service and API Errors (700-749)"}
+	ERR_EXTERNAL_SERVICE_FAILURE    := 700,    // Failure in an external service or API
+	ERR_UNAVAILABLE_SERVICE         := 701,    // Required service or component is not available
+	{endregion}
+	
+	{region "Data Conversion Errors (800-849)"}
+	ERR_INVALID_INPUT               := 800,   // Invalid or unexpected input provided
+	ERR_INVALID_CONVERSION          := 801,   // Invalid data conversion
+	ERR_INVALID_COMPARISON          := 802,   // Invalid comparison
+	ERR_TYPE_MISMATCH               := 803,   // Type mismatch
+	ERR_SIZE_MISMATCH               := 804,   // Size mismatch
+	{endregion}
+	
+	{region "Security Errors (900-949)"}
+	ERR_SECURITY_CHECKS_FAILED      := 900,   // Some security checks have failed. (Generic error for reporting over public channels)
+	ERR_AUTHENTICATION_FAILED       := 901,   // Authentication process failed
+	ERR_AUTHORIZATION_FAILED        := 902,   // Authorization failed due to insufficient permissions
+	{endregion}
+	
+	{region "Memory Errors (1000-1049)"}
+	ERR_MEMORY_ALLOCATION_FAILED    := 1000,  // Memory allocation failed
+	ERR_INSUFFICIENT_MEMORY         := 1001,  // Insufficient memory to carry out the request
+	ERR_INSUFFICIENT_MEMORY_FULL    := 1002,  // Memory full
+	{endregion}
+	
+	{region "File Errors (1100-1149)"}
+	ERR_FILE_NOT_FOUND              := 1100,  // The specified file was not found
+	ERR_FILE_READ_FAILED            := 1101,  // File read operation failed
+	ERR_FILE_WRITE_FAILED           := 1102,  // File write operation failed
+	ERR_FILE_PERMISSION_DENIED      := 1103,  // File operation permission denied
+	ERR_FILE_ALREADY_EXISTS         := 1104,  // File already exists
+	ERR_FILE_TOO_LARGE              := 1105,  // File size exceeds the maximum allowed size
+	ERR_FILE_FORMAT_UNSUPPORTED     := 1106,  // Unsupported file format
+	{endregion}
+	
+	{region "Directory Errors (1150-1199)"}
+	ERR_DIRECTORY_NOT_FOUND         := 1150,  // The specified directory was not found
+	ERR_DIRECTORY_READ_FAILED       := 1151,  // Directory read operation failed
+	ERR_DIRECTORY_WRITE_FAILED      := 1152,  // Directory write operation failed
+	ERR_DIRECTORY_PERMISSION_DENIED := 1153,  // Directory operation permission denied
+	ERR_DIRECTORY_NOT_EMPTY         := 1154,  // Directory is not empty
+	ERR_DIRECTORY_ALREADY_EXISTS    := 1155,  // Directory already exists
+	{endregion}
+	
+	{region "Cache Errors (1200-1249)"}
+	ERR_CACHE_MISS                  := 1200,  // Cache miss occurred
+	ERR_CACHE_WRITE_FAILED          := 1201,  // Cache write operation failed
+	{endregion}
+	
+	{region "Serialization/Deserialization Errors (1300-1349)"}
+	ERR_SERIALIZATION_FAILED        := 1300,  // Data serialization failed
+	ERR_DESERIALIZATION_FAILED      := 1301,  // Data deserialization failed
+	{endregion}
+	
+	{region "Threading and Concurrency Errors (1400-1449)"}
+	ERR_THREAD_CREATION_FAILED      := 1400,  // Thread creation failed
+	ERR_DEADLOCK_DETECTED           := 1401,  // Deadlock detected
+	ERR_CONCURRENCY_VIOLATION       := 1402,  // Concurrency violation
+	{endregion}
+	
+	{region "Protocol Errors (1500-1549)"}
+	ERR_PROTOCOL_VIOLATION          := 1500,  // Protocol violation detected
+	ERR_UNSUPPORTED_PROTOCOL        := 1501,  // Unsupported protocol
+	{endregion}
+	
+	{region "User Errors (1600-1699)"}
+	ERR_USER_INPUT_INVALID          := 1600,  // User input is invalid or malformed
+	ERR_USER_INPUT_TOO_LONG         := 1601,  // User input exceeds maximum allowed length
+	ERR_USER_INPUT_TOO_SHORT        := 1602,  // User input is shorter than the minimum required length
+	ERR_USER_AUTHENTICATION_FAILED  := 1603,  // User authentication failed
+	ERR_USER_AUTHORIZATION_FAILED   := 1604,  // User is not authorized to perform this action
+	ERR_USER_ACCOUNT_LOCKED         := 1605,  // User account is locked
+	ERR_USER_ACCOUNT_DISABLED       := 1606,  // User account is disabled
+	ERR_USER_SESSION_EXPIRED        := 1607,  // User session has expired
+	ERR_USER_ALREADY_EXISTS         := 1608,  // User already exists
+	ERR_USER_NOT_FOUND              := 1609,  // User not found
+	ERR_USER_CANCELLED              := 1610,  // User cancelled the operation or action
+	{endregion}
+	
+	{region "Internal additional errors (5000-5099)"}
+	ERR_NOTHING_TO_DO               := 5000,  // Operation has nothing to do. No execution.
+	ERR_FUNCTION_NOT_SUPPORTED      := 5001,  // Functionality not supported
+	{endregion}
+	
+	{region "Custom errors (10000-99999)"}
+	ERR_CUSTOM_ERROR_BEGIN          := 10_000,  // Custom or application-specific error codes can be defined starting from here
+	ERR_CUSTOM_ERROR_END          	:= 99_999,  // Custom or application-specific error codes definition ends here
+	{endregion}
+	
+	{region "Codesys errors (200000-299999)"} 
+	ERR_CODESYS_BEGIN				:= 100_000, // Start range of Codesys errors in the context of general errors
+	ERR_CODESYS_END					:= 999_999,	// End range of Codesys errors in the context of general errors
+	{endregion}
+	
+	{region "ADS errors (1,000,000,000-...)"} 
+	ERR_ADS_RETURN_CODE_BEGIN		:= 1_000_000_000, // Start range of ADS return codes in the context of general errors
+	ERR_ADS_RETURN_CODE_END 		:= ERR_ADS_RETURN_CODE_BEGIN + 4_294_967_294 // End range of ADS return codes in the context of general errors
+	{endregion}
+) LINT;
+END_TYPE
+]]></Declaration>
+    <XmlArchive>
+      <Data>
+        <o xml:space="preserve" t="TextListEnumerationTextListObject">
+          <l n="TextList" t="ArrayList" cet="TextListRow">
+            <o>
+              <v n="TextID">"1"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"000"</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">"000-..."</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+            <o>
+              <v n="TextID">""</v>
+              <v n="TextDefault">""</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
+          </l>
+          <l n="Languages" t="ArrayList" />
+          <v n="GuidInit">{5e36a785-8dd4-4eca-b5fd-17e3295f8982}</v>
+          <v n="GuidReInit">{4dcad4d8-2e8f-4786-8905-7dce770ff384}</v>
+          <v n="GuidExitX">{14699be4-d800-40f5-b4fa-0003c1ac2445}</v>
+        </o>
+      </Data>
+      <TypeList>
+        <Type n="ArrayList">System.Collections.ArrayList</Type>
+        <Type n="Guid">System.Guid</Type>
+        <Type n="String">System.String</Type>
+        <Type n="TextListEnumerationTextListObject">{4b60233c-f940-4beb-b331-82133b520151}</Type>
+        <Type n="TextListRow">{53da1be7-ad25-47c3-b0e8-e26286dad2e0}</Type>
+      </TypeList>
+    </XmlArchive>
+  </EnumerationTextList>
+</TcPlcObject>

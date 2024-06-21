@@ -81,8 +81,8 @@ END_VAR]]></Declaration>
 // Check if interface is valid, if not then return error.
 IF ipLogger = 0 THEN 
 	Error := F_CreateError(
-		GVL_ErrorDescriptors.fbAdsReturnCodes,
-		E_AdsReturnCode.ADSERR_DEVICE_INVALIDINTERFACE);
+		GVL_ErrorDescriptors.fbGeneralErrorCodes,
+		E_GeneralErrorCode.ERR_INVALID_INTERFACE);
 	RETURN;
 	END_IF
 	

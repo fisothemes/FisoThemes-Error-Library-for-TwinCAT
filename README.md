@@ -29,17 +29,17 @@ VAR_INPUT
     ipObject : I_Object;
 END_VAR
 VAR_OUTPUT
-	bIsBusy : BOOL; // Is the operation still executing?
-	Error   : FsError.T_Error;  // Error produced by operation.
+    bIsBusy : BOOL; // Is the operation still executing?
+    Error   : FsError.T_Error;  // Error produced by operation.
 END_VAR
 
 // Check if interface is valid and raise an error if it's not.
 IF ipObject = 0 THEN
-	Error := FsError.F_CreateError(
-		FsError.GVL_ErrorDescriptors.fbAdsReturnCodes,
-		FsError.E_AdsReturnCode.ADSERR_DEVICE_INVALIDINTERFACE);
-	RETURN;
-	END_IF
+    Error := FsError.F_CreateError(
+        FsError.GVL_ErrorDescriptors.fbGeneralErrorCodes,
+        FsError.E_GeneralErrorCode.ERR_INVALID_INTERFACE);
+    RETURN;
+    END_IF
 
 ...
 
@@ -51,33 +51,33 @@ To log an error, use the `.LogMessage(...)` method of the `FsError.T_Error` inst
 ```js
 PROGRAM MAIN
 VAR
-	bCreateError,
-	bLogWithAds,
+    bCreateError,
+    bLogWithAds,
     bLogToDisk      : BOOL;
-	dErrDate		: DATE;
-	todErrTime		: TOD;
-	Err 			: FsError.T_Error;
-	fbWithAdsLogger : FsError.FB_AdsErrorLogger;
-	fbToDisk		: FsError.FB_DiskErrorLogger('C:\temp\errlog.csv');
+    dErrDate		: DATE;
+    todErrTime		: TOD;
+    Err 			: FsError.T_Error;
+    fbWithAdsLogger : FsError.FB_AdsErrorLogger;
+    fbToDisk		: FsError.FB_DiskErrorLogger('C:\temp\errlog.csv');
 END_VAR
 
 // Create error.
 IF bCreateError THEN 
-	bCreateError := FALSE;
-	Err := FsError.F_CreateError(
+    bCreateError := FALSE;
+    Err := FsError.F_CreateError(
         GVL_ErrorDescriptors.fbAdsReturnCodes,
-		E_AdsReturnCode.ADSERR_DEVICE_EXISTS);
-	END_IF
+        E_AdsReturnCode.ADSERR_DEVICE_EXISTS);
+    END_IF
 
 // Log error with ADS logger.
 IF bLogWithAds THEN
-	Err.LogMessage(fbWithAdsLogger, bIsBusy => bLogWithAds);
-	END_IF
+    Err.LogMessage(fbWithAdsLogger, bIsBusy => bLogWithAds);
+    END_IF
 
 // Log error to disk.
 IF bLogToDisk THEN
-	Err.LogMessage(fbToDisk, bIsBusy => bLogToDisk);
-	END_IF
+    Err.LogMessage(fbToDisk, bIsBusy => bLogToDisk);
+    END_IF
 
 // Get date of error.
 dErrDate 	:= Err.Timestamp.GetDate();
@@ -113,16 +113,13 @@ VAR_INPUT
 END_VAR
 
 CASE Code OF
-    E_CustomErrorCode.ERR_NOERROR:  	 		GetDescription := 'No error.';
-    E_CustomErrorCode.ERR_CUSTOM:   	 		GetDescription := 'Custom error.';
-	E_CustomErrorCode.ERR_INDEX_OUT_OF_BOUNDS: 	GetDescription := 'Index out of bounds.';
-	...
+    E_CustomErrorCode.ERR_NOERROR:              GetDescription := 'No error.';
+    E_CustomErrorCode.ERR_CUSTOM:               GetDescription := 'Custom error.';
+    E_CustomErrorCode.ERR_INDEX_OUT_OF_BOUNDS:  GetDescription := 'Index out of bounds.';
+    ...
 ELSE
     GetDescription := CONCAT('Unknown error code: ', CONCAT(TO_STRING(Code), '.'));
-	END_CASE
-
-...
-
+    END_CASE
 END_METHOD
 
 ...
@@ -136,8 +133,8 @@ Next, create a GVL to hold a global instance of your descriptor. It is recommend
 // GVL_CustomErrorDescriptors
 {attribute 'qualified_only'}
 VAR_GLOBAL
-	fbCustomErrorCodes	: FB_CustomCodesDescriptor;
-	...
+    fbCustomErrorCodes : FB_CustomCodesDescriptor;
+    ...
 END_VAR
 ```
 
@@ -151,30 +148,30 @@ To create a custom error logger, create a function block that implements the fun
 {attribute 'no_explicit_call' := 'direct call for this function block is not allowed'}
 FUNCTION_BLOCK FINAL FB_BufferedErrorLogger IMPLEMENTS I_ErrorLogger
 VAR
-	_arBuffer 	: ARRAY[0..100] OF FsError.T_Error;
-	_nCount		: UINT;
+    _arBuffer   : ARRAY[0..100] OF FsError.T_Error;
+    _nCount     : UINT;
 END_VAR
 VAR CONSTANT
-	_nCAPACITY	: UINT := SIZEOF(_arBuffer)/SIZEOF(_nCount);
+    _nCAPACITY  : UINT := SIZEOF(_arBuffer)/SIZEOF(_nCount);
 END_VAR
 
 
 // Logs the provided error message.
 METHOD Invoke
 VAR_INPUT
-	ipError : I_Error;	 // The error message to be logged.
+    ipError : I_Error;  // The error message to be logged.
 END_VAR
 VAR_OUTPUT
-	bIsBusy : BOOL;		// Is the operation still executing?
-	Error 	: T_Error;	// Error produced by operation.
+    bIsBusy : BOOL;     // Is the operation still executing?
+    Error   : T_Error;  // Error produced by operation.
 END_VAR
 
 IF ipError = 0 THEN
-	Error := F_CreateError(
-		FsError.GVL_ErrorDescriptors.fbAdsReturnCodes,
-		FsError.E_AdsReturnCode.ADSERR_DEVICE_INVALIDINTERFACE);
-	RETURN;
-	END_IF
+    Error := F_CreateError(
+        FsError.GVL_ErrorDescriptors.fbAdsReturnCodes,
+        FsError.E_AdsReturnCode.ADSERR_DEVICE_INVALIDINTERFACE);
+    RETURN;
+    END_IF
 
 IF ipError.IsNotRaised THEN RETURN; END_IF
 
@@ -185,24 +182,24 @@ END_METHOD
 // Appends the error to the buffer
 METHOD PRIVATE Append
 VAR_INPUT
-    ipError : FsError.I_Error; // The error to append
+    ipError     : FsError.I_Error; // The error to append
 END_VAR
 VAR_OUTPUT
-    Error : FsError.T_Error; // Error produced by the operation
+    Error       : FsError.T_Error; // Error produced by the operation
 END_VAR
 VAR
-	fbMutError : FsError.FB_MutableError;
+    fbMutError  : FsError.FB_MutableError;
 END_VAR
 
 IF ipError = 0 THEN
-	Error := F_CreateError(
-		FsError.GVL_ErrorDescriptors.fbAdsReturnCodes,
-		FsError.E_AdsReturnCode.ADSERR_DEVICE_INVALIDINTERFACE);
-	RETURN;
-	END_IF
+    Error := F_CreateError(
+        FsError.GVL_ErrorDescriptors.fbAdsReturnCodes,
+        FsError.E_AdsReturnCode.ADSERR_DEVICE_INVALIDINTERFACE);
+    RETURN;
+    END_IF
 
 IF _nCount < _nCAPACITY THEN
-	fbMutError.CopyFrom(ipError);
+    fbMutError.CopyFrom(ipError);
     _arBuffer[_nCount] := fbTmpError; // Copy error to buffer
     _nCount := _nCount + 1;
 ELSE
@@ -210,7 +207,7 @@ ELSE
     Error := FsError.F_CreateError(
         FsError.GVL_ErrorDescriptors.fbAdsReturnCodes,
         FsError.E_AdsReturnCode.ADSERR_DEVICE_NOMEMORY);
-	END_IF
+    END_IF
 
 END_METHOD
 
@@ -223,10 +220,10 @@ Then simply use your logger like so;
 
 ```js
 VAR
-	stValue			: ST_Value;
-	Err				: FsError.T_Error;
-	fbList 			: FsCollections.FB_DynamicList(ItemSize := SIZEOF(ST_Value));
-	fbToErrorBuffer	: FB_BufferedErrorLogger;
+    stValue         : ST_Value;
+    Err             : FsError.T_Error;
+    fbList          : FsCollections.FB_DynamicList(ItemSize := SIZEOF(ST_Value));
+    fbToErrorBuffer : FB_BufferedErrorLogger;
 END_VAR
 
 fbList.Insert(87126, stValue, Error => Err);

@@ -21,8 +21,10 @@ END_VAR]]></Declaration>
 
 IF bCreate THEN 
 	bCreate := FALSE;
-	Err := F_CreateError(GVL_ErrorDescriptors.fbGeneralErrorCodes,
-						 E_GeneralErrorCode.ERR_ADS_RETURN_CODE_BEGIN + E_AdsReturnCode.ADSERR_DEVICE_INVALIDCONTEXT);
+	Err := F_CreateErrorFromStartRange(
+		GVL_ErrorDescriptors.fbGeneralErrorCodes,
+		E_GeneralErrorCode.ERR_ADS_RETURN_CODE_BEGIN, 
+		E_AdsReturnCode.ERR_NOERROR);
 	END_IF
 
 IF bLog THEN Err.LogMessage(fbToDisk, bIsBusy => bLog, Error => DiskLogErr); END_IF

@@ -117,6 +117,8 @@ END_VAR]]></Declaration>
     E_GeneralErrorCode.ERR_FILE_ALREADY_EXISTS:             GetDescription := 'File already exists.';
     E_GeneralErrorCode.ERR_FILE_TOO_LARGE:                  GetDescription := 'File size exceeds the maximum allowed size.';
     E_GeneralErrorCode.ERR_FILE_FORMAT_UNSUPPORTED:         GetDescription := 'Unsupported file format.';
+	E_GeneralErrorCode.ERR_FILE_NOT_OPEN:					GetDescription := 'File isn$'t open.';
+	E_GeneralErrorCode.ERR_FILE_INVALID_HANDLE:				GetDescription := 'File handle is invalid.';
 
     // Directory Errors (1150-1199)
     E_GeneralErrorCode.ERR_DIRECTORY_NOT_FOUND:             GetDescription := 'The specified directory was not found.';
@@ -125,6 +127,8 @@ END_VAR]]></Declaration>
     E_GeneralErrorCode.ERR_DIRECTORY_PERMISSION_DENIED:     GetDescription := 'Directory operation permission denied.';
     E_GeneralErrorCode.ERR_DIRECTORY_NOT_EMPTY:             GetDescription := 'Directory is not empty.';
     E_GeneralErrorCode.ERR_DIRECTORY_ALREADY_EXISTS:        GetDescription := 'Directory already exists.';
+	E_GeneralErrorCode.ERR_DIRECTORY_NOT_OPEN:				GetDescription := 'Directory isn$'t open.';
+	E_GeneralErrorCode.ERR_DIRECTORY_INVALID_HANDLE:		GetDescription := 'Directory handle is invalid.';
 
     // Cache Errors (1200-1249)
     E_GeneralErrorCode.ERR_CACHE_MISS:                      GetDescription := 'Cache miss occurred.';

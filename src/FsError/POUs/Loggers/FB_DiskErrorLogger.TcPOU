@@ -56,8 +56,10 @@ END_VAR]]></Declaration>
 
 IF eResult = E_CodesysCmpError.ERR_OK THEN RETURN; END_IF
 
-Error := F_CreateError(	GVL_ErrorDescriptors.fbGeneralErrorCodes,
-					E_GeneralErrorCode.ERR_CODESYS_BEGIN + eResult);]]></ST>
+Error := F_CreateErrorFromStartRange(
+	GVL_ErrorDescriptors.fbGeneralErrorCodes,
+	E_GeneralErrorCode.ERR_CODESYS_BEGIN,
+	eResult);]]></ST>
       </Implementation>
     </Method>
     <Method Name="CreateLogEntry" Id="{a64b81cf-7222-08ce-2b93-1933ad3b8e24}" FolderPath="Internal\">
@@ -228,14 +230,21 @@ END_VAR]]></Declaration>
       <Implementation>
         <ST><![CDATA[Flush := THIS^;
 
-IF NOT THIS^.IsOpen THEN RETURN; END_IF
+IF NOT THIS^.IsOpen THEN 
+	Error := F_CreateError(
+		GVL_ErrorDescriptors.fbGeneralErrorCodes,
+		E_GeneralErrorCode.ERR_FILE_NOT_OPEN);
+	RETURN;
+	END_IF
 
 eResult := SysFile.SysFileFlush(THIS^._Handle);
 
 IF eResult = E_CodesysCmpError.ERR_OK THEN RETURN; end_if
 
-Error := F_CreateError(	GVL_ErrorDescriptors.fbGeneralErrorCodes,
-						E_GeneralErrorCode.ERR_CODESYS_BEGIN + eResult);]]></ST>
+Error := F_CreateErrorFromStartRange(
+	GVL_ErrorDescriptors.fbGeneralErrorCodes,
+	E_GeneralErrorCode.ERR_CODESYS_BEGIN,
+	eResult);]]></ST>
       </Implementation>
     </Method>
     <Method Name="Invoke" Id="{59e699e2-7a12-01ea-1ac7-9de854c5852e}">
@@ -274,9 +283,10 @@ nBytesWritten := SysFile.SysFileWrite(
 
 // Check for errors.
 IF eResult <> E_CodesysCmpError.ERR_OK THEN 
-	Error := F_CreateError(
+	Error := F_CreateErrorFromStartRange(
 		GVL_ErrorDescriptors.fbGeneralErrorCodes, 
-		E_GeneralErrorCode.ERR_CODESYS_BEGIN + eResult);
+		E_GeneralErrorCode.ERR_CODESYS_BEGIN, 
+		eResult);
 	END_IF
 	
 // Check if writter is busy.
@@ -286,9 +296,10 @@ bIsBusy := Error.IsNotRaised AND nBytesWritten = 0;
 IF NOT bIsBusy AND Error.IsNotRaised AND THIS^._bAutoFlush THEN 
 	eResult := SysFile.SysFileFlush(THIS^._Handle);
 	IF eResult <> E_CodesysCmpError.ERR_OK THEN 
-		Error := F_CreateError(
+		Error := F_CreateErrorFromStartRange(
 			GVL_ErrorDescriptors.fbGeneralErrorCodes, 
-			E_GeneralErrorCode.ERR_CODESYS_BEGIN + eResult);
+			E_GeneralErrorCode.ERR_CODESYS_BEGIN, 
+			eResult);
 		END_IF
 	END_IF]]></ST>
       </Implementation>
@@ -350,10 +361,10 @@ bIsBusy := eResult = E_CodesysCmpError.ERR_OK AND THIS^._Handle = SysTypes.RTS_I
 
 IF bIsBusy OR eResult = E_CodesysCmpError.ERR_OK THEN RETURN; END_IF
 
-Error := F_CreateError(	GVL_ErrorDescriptors.fbGeneralErrorCodes,
-						E_GeneralErrorCode.ERR_CODESYS_BEGIN + eResult);
-
-]]></ST>
+Error := F_CreateErrorFromStartRange(
+	GVL_ErrorDescriptors.fbGeneralErrorCodes,
+	E_GeneralErrorCode.ERR_CODESYS_BEGIN,
+	eResult);]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetDelimiter" Id="{c65adf51-c44e-0bc1-1c26-85c083bc7d41}">

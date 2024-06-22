@@ -47,18 +47,18 @@ END_METHOD
 ```
 
 ### Logging an Error
-To log an error, use the `.LogMessage(...)` method of the `FsError.T_Error` instance. This method takes an error logger. The error can be logged using different loggers, such as the provided ADS logger (`FB_AdsErrorLogger`) and a disk logger (`FB_DiskErrorLogger`) or a custom logger implemented using the `FsError.I_ErrorLogger` interface.
+To log an error, use the `LogMessage(...)` method of the `FsError.T_Error` instance. This method takes an error logger. The error can be logged using different loggers, such as the provided ADS logger (`FB_AdsErrorLogger`) and a disk logger (`FB_DiskErrorLogger`) or a custom logger implemented using the `FsError.I_ErrorLogger` interface.
 ```js
 PROGRAM MAIN
 VAR
     bCreateError,
     bLogWithAds,
     bLogToDisk      : BOOL;
-    dErrDate		: DATE;
-    todErrTime		: TOD;
-    Err 			: FsError.T_Error;
+    dErrDate        : DATE;
+    todErrTime      : TOD;
+    Err             : FsError.T_Error;
     fbWithAdsLogger : FsError.FB_AdsErrorLogger;
-    fbToDisk		: FsError.FB_DiskErrorLogger('C:\temp\errlog.csv');
+    fbToDisk        : FsError.FB_DiskErrorLogger('C:\temp\errlog.csv');
 END_VAR
 
 // Create error.
@@ -80,10 +80,10 @@ IF bLogToDisk THEN
     END_IF
 
 // Get date of error.
-dErrDate 	:= Err.Timestamp.GetDate();
+dErrDate    := Err.Timestamp.GetDate();
 
 // Get time of day of error.
-todErrTime 	:= Err.Timestamp.GetTimeOfDay();
+todErrTime  := Err.Timestamp.GetTimeOfDay();
 
 ...
 

@@ -50,8 +50,9 @@ eResult := Tc2_System.ADSLOGSTR(
 	TO_STRING(ipError.Code));
 
 IF eResult <> 0 THEN 
-	Error := F_CreateError(
-		GVL_ErrorDescriptors.fbAdsReturnCodes,
+	Error := F_CreateErrorFromStartRange(
+		GVL_ErrorDescriptors.fbGeneralErrorCodes,
+		E_GeneralErrorCode.ERR_ADS_RETURN_CODE_BEGIN,
 		eResult);
 	END_IF]]></ST>
       </Implementation>

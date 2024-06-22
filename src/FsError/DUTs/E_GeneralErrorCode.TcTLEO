@@ -114,6 +114,8 @@ TYPE E_GeneralErrorCode :
 	ERR_FILE_ALREADY_EXISTS         := 1104,  // File already exists
 	ERR_FILE_TOO_LARGE              := 1105,  // File size exceeds the maximum allowed size
 	ERR_FILE_FORMAT_UNSUPPORTED     := 1106,  // Unsupported file format
+	ERR_FILE_NOT_OPEN				:= 1107,  // File isn't open
+	ERR_FILE_INVALID_HANDLE			:= 1108,  // File handle is invalid
 	{endregion}
 	
 	{region "Directory Errors (1150-1199)"}
@@ -123,6 +125,8 @@ TYPE E_GeneralErrorCode :
 	ERR_DIRECTORY_PERMISSION_DENIED := 1153,  // Directory operation permission denied
 	ERR_DIRECTORY_NOT_EMPTY         := 1154,  // Directory is not empty
 	ERR_DIRECTORY_ALREADY_EXISTS    := 1155,  // Directory already exists
+	ERR_DIRECTORY_NOT_OPEN			:= 1157,  // Directory isn't open
+	ERR_DIRECTORY_INVALID_HANDLE	:= 1158,  // Directory handle is invalid
 	{endregion}
 	
 	{region "Cache Errors (1200-1249)"}

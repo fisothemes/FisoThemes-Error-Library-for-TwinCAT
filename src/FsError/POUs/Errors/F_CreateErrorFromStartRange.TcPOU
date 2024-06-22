@@ -1,10 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1">
-  <POU Name="F_CreateError" Id="{6245ffe2-0c4b-0378-2c63-08c56849c572}" SpecialFunc="None">
-    <Declaration><![CDATA[// Create errors with specified parameters and sets the timestamp to the local time.
-FUNCTION F_CreateError : T_Error // Instance of created error.
+  <POU Name="F_CreateErrorFromStartRange" Id="{d5f028a0-24ee-0f73-1be1-cd20ce46f9c4}" SpecialFunc="None">
+    <Declaration><![CDATA[// Create errors with specified parameters and sets the timestamp to the local time from a starting range.
+// Some error descriptors have ranges for error codes.
+// If the code is 0 an unraised error is created.
+FUNCTION F_CreateErrorFromStartRange : T_Error // Instance of created error.
 VAR_INPUT
 	ipDescriptor 	: I_ErrorDescriptor; 	// Error descriptor.
+	StartRange		: T_ErrorCode;			// Error code starting Range. 
 	Code 			: T_ErrorCode; 			// Error code.
 END_VAR
 VAR
@@ -26,11 +29,11 @@ nHighResTimestamp := TO_ULINT(nLowResTimestamp)*1000
 
 // Set muttable error.
 fbMutError.SetDescriptor(ipDescriptor)
-		  .RaiseError(Code)
+		  .RaiseError(SEL(Code <> 0, 0, StartRange + Code))
 		  .SetTimestamp(nHighResTimestamp);
 		  
 // Return as immutable error.
-F_CreateError := fbMutError;]]></ST>
+F_CreateErrorFromStartRange := fbMutError;]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

@@ -264,6 +264,7 @@ __pycache__/
 *.~u
 *.compileinfo
 *.tmc
+*.tmcRefac
 *.tclrs
 *.occ
 *.tmy

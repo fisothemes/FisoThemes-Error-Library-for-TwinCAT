@@ -10,8 +10,8 @@ VAR
 	_FilePath 		: FsCommon.T_Path;
 	_Handle 		: SysTypes.RTS_IEC_HANDLE 	:= SysTypes.RTS_INVALID_HANDLE;
 	_bAutoFlush		: BOOL 						:= TRUE;
-	_sDelimiter 	: STRING(1) 				:= ',';
-	_sTextQualifier : STRING(1) 				:= '"';
+	_Delimiter 		: FsCommon.T_Char 			:= ',';
+	_TextQualifier 	: FsCommon.T_Char 			:= '"';
 	_sLineEnding 	: STRING(10) 				:= '$R$N';
 END_VAR]]></Declaration>
     <Implementation>
@@ -87,7 +87,7 @@ sTimeOfDay 	:= TO_STRING(ipError.Timestamp.GetTimeOfDay());
 sErrorCode	:= TO_STRING(ipError.Code);
 
 // Append timestamp start text qualifier.
-LoggedErrorMessage := THIS^._sTextQualifier;
+LoggedErrorMessage := THIS^._TextQualifier;
 
 // Append date.
 nIndex := 0;
@@ -111,15 +111,15 @@ WHILE sTimeOfDay[4 + nIndex] <> 0 DO
 	
 // Append timestamp end text qualifier.
 nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sTextQualifier[0];
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._TextQualifier[0];
 
 // Append delimiter.
 nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sDelimiter[0];
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._Delimiter[0];
 
 // Append error code start text qualifier.
 nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sTextQualifier[0];
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._TextQualifier[0];
 
 // Append error code.
 nIndex := 0;
@@ -131,15 +131,15 @@ WHILE sErrorCode[nIndex] <> 0 DO
 	
 // Append error code end text qualifier.
 nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sTextQualifier[0];
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._TextQualifier[0];
 
 // Append delimiter.
 nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sDelimiter[0];
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._Delimiter[0];
 
 // Append error code start text qualifier.
 nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sTextQualifier[0];
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._TextQualifier[0];
 
 // Append error message.
 ErrorMessage := ipError.Message;
@@ -152,7 +152,7 @@ WHILE ErrorMessage[nIndex] <> 0 DO
 
 // Append error code end text qualifier.
 nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sTextQualifier[0];
+LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._TextQualifier[0];
 
 // Append line ending.
 nIndex := 0;
@@ -175,13 +175,13 @@ CreateLogEntry := SEL(nCursor <> 0, 0, nCursor - 1);]]></ST>
 // [default] ','.
 // [get] Returns the delimter.
 // [set] Sets the delimiter.
-PROPERTY Delimiter : STRING(1)]]></Declaration>
+PROPERTY Delimiter : FsCommon.T_Char]]></Declaration>
       <Get Name="Get" Id="{52d0affa-4ff3-0b09-2c52-06d76979b161}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[Delimiter := THIS^._sDelimiter;]]></ST>
+          <ST><![CDATA[Delimiter := THIS^._Delimiter;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{77845af1-122f-0b84-3cfd-3c4950f1cda5}">
@@ -189,7 +189,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[THIS^._sDelimiter := Delimiter;]]></ST>
+          <ST><![CDATA[THIS^._Delimiter := Delimiter;]]></ST>
         </Implementation>
       </Set>
     </Property>
@@ -372,13 +372,13 @@ Error := F_CreateErrorFromStartRange(
 // [default] ','
 METHOD SetDelimiter : REFERENCE TO FB_DiskErrorLogger // Reference to the current instance of error logger.
 VAR_INPUT
-	sValue : STRING(1); // Delimiter character.
+	Value : FsCommon.T_Char; // Delimiter character.
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SetDelimiter REF= THIS^;
 
-THIS^._sDelimiter := sValue;]]></ST>
+THIS^._Delimiter := Value;]]></ST>
       </Implementation>
     </Method>
     <Method Name="SetLineEnding" Id="{63b8a44c-8194-0cb7-2482-a4c3d39edc61}">
@@ -400,13 +400,13 @@ THIS^._sLineEnding := sValue;]]></ST>
 // [default] '"'.
 METHOD SetTextQualifier : REFERENCE TO FB_DiskErrorLogger // Reference to the current instance of error logger.
 VAR_INPUT
-	sValue : STRING(1); // Text Qualifier character.
+	Value : FsCommon.T_Char; // Text Qualifier character.
 END_VAR
 ]]></Declaration>
       <Implementation>
         <ST><![CDATA[SetTextQualifier REF= THIS^;
 
-THIS^._sTextQualifier := sValue;]]></ST>
+THIS^._TextQualifier := Value;]]></ST>
       </Implementation>
     </Method>
     <Property Name="TextQualifier" Id="{ee0f8a21-8469-0939-0690-bf6c7dcbe421}">
@@ -414,13 +414,13 @@ THIS^._sTextQualifier := sValue;]]></ST>
 // [default] '"'.
 // [get] Returns the text qualifier.
 // [set] Set the text qualifier.
-PROPERTY TextQualifier : STRING(1)]]></Declaration>
+PROPERTY TextQualifier : FsCommon.T_Char]]></Declaration>
       <Get Name="Get" Id="{ad0af364-8771-0250-2eeb-62ee922c13c8}">
         <Declaration><![CDATA[VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[TextQualifier := THIS^._sTextQualifier;]]></ST>
+          <ST><![CDATA[TextQualifier := THIS^._TextQualifier;]]></ST>
         </Implementation>
       </Get>
       <Set Name="Set" Id="{a8611ce6-9a7f-0b5f-330d-ec7bdc6a8ced}">
@@ -428,7 +428,7 @@ END_VAR
 END_VAR
 ]]></Declaration>
         <Implementation>
-          <ST><![CDATA[THIS^._sTextQualifier := TextQualifier;]]></ST>
+          <ST><![CDATA[THIS^._TextQualifier := TextQualifier;]]></ST>
         </Implementation>
       </Set>
     </Property>

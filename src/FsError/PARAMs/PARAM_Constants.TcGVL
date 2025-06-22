@@ -4,8 +4,7 @@
     <Declaration><![CDATA[// Main parameters for the library.
 {attribute 'qualified_only'}
 VAR_GLOBAL CONSTANT
-	ERROR_MESSAGE_SIZE 				: __UXINT := 255; // String length of an error message.
-	DISK_LOGGER_PATH_LENGTH			: __UXINT := 300; // String length of disk logger path.
+	ERROR_MESSAGE_SIZE : __UXINT := 255; // String length of an error message.
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

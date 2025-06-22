@@ -326,31 +326,6 @@
                   <v n="MethodParameterLength">20</v>
                   <v n="MethodParameterTooLong">true</v>
                 </o>
-                <v>b69e2064-98c8-481c-b978-caa98a3507c9</v>
-                <o>
-                  <v n="MethodName">"Invoke"</v>
-                  <v n="MethodBreakPointActive">false</v>
-                  <v n="MethodReturnType">""</v>
-                  <l n="MethodParameter" t="ArrayList" cet="UMLMethodParameter">
-                    <o>
-                      <v n="ParameterName">"ipError"</v>
-                      <v n="ParameterType">"I_Error"</v>
-                      <v n="ParameterParent">{b69e2064-98c8-481c-b978-caa98a3507c9}</v>
-                      <v n="ParameterTransfer">"in"</v>
-                    </o>
-                    <o>
-                      <v n="ParameterName">"Error"</v>
-                      <v n="ParameterType">"T_Error"</v>
-                      <v n="ParameterParent">{b69e2064-98c8-481c-b978-caa98a3507c9}</v>
-                      <v n="ParameterTransfer">"out"</v>
-                    </o>
-                  </l>
-                  <v n="MethodParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
-                  <v n="MethodObjectGuid">{b69e2064-98c8-481c-b978-caa98a3507c9}</v>
-                  <v n="MethodStereotype">""</v>
-                  <v n="MethodParameterLength">20</v>
-                  <v n="MethodParameterTooLong">true</v>
-                </o>
                 <v>4a53bcce-f678-4e83-ab72-65d0d823be40</v>
                 <o>
                   <v n="MethodName">"SetTextQualifier"</v>
@@ -414,6 +389,31 @@
                   <v n="MethodParameterLength">20</v>
                   <v n="MethodParameterTooLong">false</v>
                 </o>
+                <v>b69e2064-98c8-481c-b978-caa98a3507c9</v>
+                <o>
+                  <v n="MethodName">"Invoke"</v>
+                  <v n="MethodBreakPointActive">false</v>
+                  <v n="MethodReturnType">""</v>
+                  <l n="MethodParameter" t="ArrayList" cet="UMLMethodParameter">
+                    <o>
+                      <v n="ParameterName">"ipError"</v>
+                      <v n="ParameterType">"I_Error"</v>
+                      <v n="ParameterParent">{b69e2064-98c8-481c-b978-caa98a3507c9}</v>
+                      <v n="ParameterTransfer">"in"</v>
+                    </o>
+                    <o>
+                      <v n="ParameterName">"Error"</v>
+                      <v n="ParameterType">"T_Error"</v>
+                      <v n="ParameterParent">{b69e2064-98c8-481c-b978-caa98a3507c9}</v>
+                      <v n="ParameterTransfer">"out"</v>
+                    </o>
+                  </l>
+                  <v n="MethodParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
+                  <v n="MethodObjectGuid">{b69e2064-98c8-481c-b978-caa98a3507c9}</v>
+                  <v n="MethodStereotype">""</v>
+                  <v n="MethodParameterLength">20</v>
+                  <v n="MethodParameterTooLong">true</v>
+                </o>
                 <v>17c94395-cd75-4e96-8b58-09831c5e5470</v>
                 <o>
                   <v n="MethodName">"Flush"</v>
@@ -439,25 +439,6 @@
                   <v n="MethodParameterLength">20</v>
                   <v n="MethodParameterTooLong">true</v>
                 </o>
-                <v>292266d7-2694-4237-bf99-d2815d4cffa6</v>
-                <o>
-                  <v n="MethodName">"SetDelimiter"</v>
-                  <v n="MethodBreakPointActive">false</v>
-                  <v n="MethodReturnType">"REFERENCE TO FB_DiskErrorLogger"</v>
-                  <l n="MethodParameter" t="ArrayList" cet="UMLMethodParameter">
-                    <o>
-                      <v n="ParameterName">"sValue"</v>
-                      <v n="ParameterType">"STRING(1)"</v>
-                      <v n="ParameterParent">{292266d7-2694-4237-bf99-d2815d4cffa6}</v>
-                      <v n="ParameterTransfer">"in"</v>
-                    </o>
-                  </l>
-                  <v n="MethodParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
-                  <v n="MethodObjectGuid">{292266d7-2694-4237-bf99-d2815d4cffa6}</v>
-                  <v n="MethodStereotype">""</v>
-                  <v n="MethodParameterLength">20</v>
-                  <v n="MethodParameterTooLong">false</v>
-                </o>
                 <v>bbdb1f08-d9db-481b-80bd-c01583d62479</v>
                 <o>
                   <v n="MethodName">"FB_exit"</v>
@@ -473,6 +454,25 @@
                   </l>
                   <v n="MethodParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
                   <v n="MethodObjectGuid">{bbdb1f08-d9db-481b-80bd-c01583d62479}</v>
+                  <v n="MethodStereotype">""</v>
+                  <v n="MethodParameterLength">20</v>
+                  <v n="MethodParameterTooLong">false</v>
+                </o>
+                <v>292266d7-2694-4237-bf99-d2815d4cffa6</v>
+                <o>
+                  <v n="MethodName">"SetDelimiter"</v>
+                  <v n="MethodBreakPointActive">false</v>
+                  <v n="MethodReturnType">"REFERENCE TO FB_DiskErrorLogger"</v>
+                  <l n="MethodParameter" t="ArrayList" cet="UMLMethodParameter">
+                    <o>
+                      <v n="ParameterName">"sValue"</v>
+                      <v n="ParameterType">"STRING(1)"</v>
+                      <v n="ParameterParent">{292266d7-2694-4237-bf99-d2815d4cffa6}</v>
+                      <v n="ParameterTransfer">"in"</v>
+                    </o>
+                  </l>
+                  <v n="MethodParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
+                  <v n="MethodObjectGuid">{292266d7-2694-4237-bf99-d2815d4cffa6}</v>
                   <v n="MethodStereotype">""</v>
                   <v n="MethodParameterLength">20</v>
                   <v n="MethodParameterTooLong">false</v>

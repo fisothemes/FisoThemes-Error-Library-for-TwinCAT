@@ -45,9 +45,6 @@
     <Compile Include="DUTs\E_GeneralErrorCode.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\T_DiskLoggerPath.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="DUTs\T_Error.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -159,6 +156,10 @@
     <Folder Include="POUs" />
   </ItemGroup>
   <ItemGroup>
+    <PlaceholderReference Include="FsCommon">
+      <DefaultResolution>FsCommon, * (FisoThemes)</DefaultResolution>
+      <Namespace>FsCommon</Namespace>
+    </PlaceholderReference>
     <PlaceholderReference Include="SysFile">
       <DefaultResolution>SysFile, * (System)</DefaultResolution>
       <Namespace>SysFile</Namespace>

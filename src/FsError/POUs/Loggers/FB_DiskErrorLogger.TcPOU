@@ -7,7 +7,7 @@
 {attribute 'no_explicit_call' := 'direct call for this function block is not allowed'}
 FUNCTION_BLOCK FB_DiskErrorLogger IMPLEMENTS I_ErrorLogger
 VAR
-	_FilePath 		: T_DiskLoggerPath;
+	_FilePath 		: FsCommon.T_Path;
 	_Handle 		: SysTypes.RTS_IEC_HANDLE 	:= SysTypes.RTS_INVALID_HANDLE;
 	_bAutoFlush		: BOOL 						:= TRUE;
 	_sDelimiter 	: STRING(1) 				:= ',';
@@ -210,7 +210,7 @@ METHOD FB_init : BOOL
 VAR_INPUT
 	bInitRetains 	: BOOL; 	// if TRUE, the retain variables are initialized (warm start / cold start)
 	bInCopyCode 	: BOOL;  	// if TRUE, the instance afterwards gets moved into the copy code (online change)
-	FilePath		: T_DiskLoggerPath;
+	FilePath		: FsCommon.T_Path;
 END_VAR
 ]]></Declaration>
       <Implementation>

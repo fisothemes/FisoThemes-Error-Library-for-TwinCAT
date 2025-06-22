@@ -12,7 +12,7 @@ VAR
 	_bAutoFlush		: BOOL 						:= TRUE;
 	_Delimiter 		: FsCommon.T_Char 			:= ',';
 	_TextQualifier 	: FsCommon.T_Char 			:= '"';
-	_sLineEnding 	: STRING(10) 				:= '$R$N';
+	_sLineEnding 	: STRING(2) 				:= '$R$N';
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[]]></ST>
@@ -322,7 +322,7 @@ END_VAR
 // [default] '$R$N'.
 // [get] Returns the line-ending.
 // [set] Sets the line-ending.
-PROPERTY LineEnding : STRING(1)]]></Declaration>
+PROPERTY LineEnding : STRING(2)]]></Declaration>
       <Get Name="Get" Id="{c4dc78ff-af6e-03e0-18f6-774717db0796}">
         <Declaration><![CDATA[VAR
 END_VAR
@@ -386,7 +386,7 @@ THIS^._Delimiter := Value;]]></ST>
 // [default] '$R$N'.
 METHOD SetLineEnding : REFERENCE TO FB_DiskErrorLogger // Reference to the current instance of error logger.
 VAR_INPUT
-	sValue : STRING(10); // Line ending characters.
+	sValue : STRING(2); // Line ending characters.
 END_VAR
 ]]></Declaration>
       <Implementation>

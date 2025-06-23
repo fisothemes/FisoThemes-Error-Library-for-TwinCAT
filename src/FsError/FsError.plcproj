@@ -101,6 +101,9 @@
     <Compile Include="POUs\Errors\F_CreateErrorFromStartRange.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Errors\F_PreserveError.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Loggers\FB_AdsErrorLogger.TcPOU">
       <SubType>Code</SubType>
     </Compile>

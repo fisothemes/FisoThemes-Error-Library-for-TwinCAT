@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="F_PreserveError" Id="{9e44dc4e-47dc-0354-0c72-e798e6a0874a}" SpecialFunc="None">
+    <Declaration><![CDATA[// Preserves the first error in a chain of operations by routing all subsequent
+// error writes to a dummy. This ensures downstream failures can’t overwrite
+// the original (root‐cause) error.
+//
+// Returns a reference to write into:
+//   + If Error.Code <> 0 (an error already exists), returns SuppressedError.
+//   + Otherwise returns the original Error reference.
+FUNCTION F_PreserveError : REFERENCE TO T_Error // An error reference to write into.
+VAR_INPUT
+	// Reference to the error to check/preserve.
+	Error : REFERENCE TO T_Error;
+END_VAR
+VAR_STAT
+	// Dummy slot for suppressing new errors
+	SuppressedError : T_Error;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// If an error already exists (Code <> 0), return a dummy error to suppress the new one
+IF Error.Code <> 0 THEN
+	 // An error is already set → route new errors here (suppressed).
+	F_PreserveError REF= SuppressedError;
+ELSE
+	 // No error yet → allow new error to be recorded.
+	F_PreserveError REF= Error;
+	END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

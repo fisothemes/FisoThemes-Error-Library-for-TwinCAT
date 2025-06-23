@@ -115,9 +115,9 @@
                   <v n="bIsMethod">false</v>
                   <v n="AttribtueName">"_FilePath"</v>
                   <v n="AttributeConstraint">""</v>
-                  <v n="AttributeReturnType">"T_DiskLoggerPath"</v>
+                  <v n="AttributeReturnType">"FsCommon.T_Path"</v>
                   <v n="AttributeParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
-                  <v n="AttributeObjectGuid">{f6783b46-27e3-43fb-af41-14a1ef957bba}</v>
+                  <v n="AttributeObjectGuid">{3161effe-7227-4b68-82a7-be0f74a50865}</v>
                   <v n="AttributeStereotype">""</v>
                 </o>
                 <o>
@@ -131,7 +131,7 @@
                   <v n="AttributeConstraint">""</v>
                   <v n="AttributeReturnType">"SysTypes.RTS_IEC_HANDLE"</v>
                   <v n="AttributeParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
-                  <v n="AttributeObjectGuid">{4d4592bf-91bf-41e0-825a-987683e05aaf}</v>
+                  <v n="AttributeObjectGuid">{e336d1f1-6c6f-4bc5-b047-a5dc2a6fa547}</v>
                   <v n="AttributeStereotype">""</v>
                 </o>
                 <o>
@@ -145,7 +145,7 @@
                   <v n="AttributeConstraint">""</v>
                   <v n="AttributeReturnType">"BOOL"</v>
                   <v n="AttributeParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
-                  <v n="AttributeObjectGuid">{5ea943a8-b5d8-4ef5-ae6a-9b2bdda4ab37}</v>
+                  <v n="AttributeObjectGuid">{95bfd757-6b08-4c49-aedc-07969d9900d5}</v>
                   <v n="AttributeStereotype">""</v>
                 </o>
                 <o>
@@ -155,11 +155,11 @@
                   <v n="isInoutVar">false</v>
                   <v n="isLocalVar">true</v>
                   <v n="bIsMethod">false</v>
-                  <v n="AttribtueName">"_sDelimiter"</v>
+                  <v n="AttribtueName">"_Delimiter"</v>
                   <v n="AttributeConstraint">""</v>
-                  <v n="AttributeReturnType">"STRING(1)"</v>
+                  <v n="AttributeReturnType">"FsCommon.T_Char"</v>
                   <v n="AttributeParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
-                  <v n="AttributeObjectGuid">{86bbdd95-6c12-4308-bc8e-4a3bfef132b2}</v>
+                  <v n="AttributeObjectGuid">{cc40f9a4-37cf-4cb9-a3e6-3273a0f1ca91}</v>
                   <v n="AttributeStereotype">""</v>
                 </o>
                 <o>
@@ -169,11 +169,11 @@
                   <v n="isInoutVar">false</v>
                   <v n="isLocalVar">true</v>
                   <v n="bIsMethod">false</v>
-                  <v n="AttribtueName">"_sTextQualifier"</v>
+                  <v n="AttribtueName">"_TextQualifier"</v>
                   <v n="AttributeConstraint">""</v>
-                  <v n="AttributeReturnType">"STRING(1)"</v>
+                  <v n="AttributeReturnType">"FsCommon.T_Char"</v>
                   <v n="AttributeParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
-                  <v n="AttributeObjectGuid">{813a4d6a-34da-4d90-872d-5ae8eb71558b}</v>
+                  <v n="AttributeObjectGuid">{3c06f81a-bdf9-464e-b06f-66f4de5e21e1}</v>
                   <v n="AttributeStereotype">""</v>
                 </o>
                 <o>
@@ -185,9 +185,9 @@
                   <v n="bIsMethod">false</v>
                   <v n="AttribtueName">"_sLineEnding"</v>
                   <v n="AttributeConstraint">""</v>
-                  <v n="AttributeReturnType">"STRING(10)"</v>
+                  <v n="AttributeReturnType">"STRING(2)"</v>
                   <v n="AttributeParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
-                  <v n="AttributeObjectGuid">{2c042f23-0fdf-486b-8817-447cdf8a34e3}</v>
+                  <v n="AttributeObjectGuid">{512379df-e747-4812-8c5c-a50f85192345}</v>
                   <v n="AttributeStereotype">""</v>
                 </o>
                 <o>
@@ -213,7 +213,7 @@
                   <v n="bIsMethod">true</v>
                   <v n="AttribtueName">"Delimiter"</v>
                   <v n="AttributeConstraint">""</v>
-                  <v n="AttributeReturnType">"STRING(1)"</v>
+                  <v n="AttributeReturnType">"FsCommon.T_Char"</v>
                   <v n="AttributeParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
                   <v n="AttributeObjectGuid">{461d0792-6b5a-407c-a539-ad8c622ad9b2}</v>
                   <v n="AttributeStereotype">"Property"</v>
@@ -241,7 +241,7 @@
                   <v n="bIsMethod">true</v>
                   <v n="AttribtueName">"LineEnding"</v>
                   <v n="AttributeConstraint">""</v>
-                  <v n="AttributeReturnType">"STRING(1)"</v>
+                  <v n="AttributeReturnType">"STRING(2)"</v>
                   <v n="AttributeParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
                   <v n="AttributeObjectGuid">{68efeffd-c86c-49b1-b57b-4f62ba6ad978}</v>
                   <v n="AttributeStereotype">"Property"</v>
@@ -255,7 +255,7 @@
                   <v n="bIsMethod">true</v>
                   <v n="AttribtueName">"TextQualifier"</v>
                   <v n="AttributeConstraint">""</v>
-                  <v n="AttributeReturnType">"STRING(1)"</v>
+                  <v n="AttributeReturnType">"FsCommon.T_Char"</v>
                   <v n="AttributeParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
                   <v n="AttributeObjectGuid">{017733a7-66b3-40cf-a52f-e82da33b66c6}</v>
                   <v n="AttributeStereotype">"Property"</v>
@@ -284,7 +284,7 @@
                     </o>
                     <o>
                       <v n="ParameterName">"FilePath"</v>
-                      <v n="ParameterType">"T_DiskLoggerPath"</v>
+                      <v n="ParameterType">"FsCommon.T_Path"</v>
                       <v n="ParameterParent">{285c6754-76ba-47bd-b214-780ca31fc464}</v>
                       <v n="ParameterTransfer">"in"</v>
                     </o>
@@ -326,6 +326,31 @@
                   <v n="MethodParameterLength">20</v>
                   <v n="MethodParameterTooLong">true</v>
                 </o>
+                <v>b69e2064-98c8-481c-b978-caa98a3507c9</v>
+                <o>
+                  <v n="MethodName">"Invoke"</v>
+                  <v n="MethodBreakPointActive">false</v>
+                  <v n="MethodReturnType">""</v>
+                  <l n="MethodParameter" t="ArrayList" cet="UMLMethodParameter">
+                    <o>
+                      <v n="ParameterName">"ipError"</v>
+                      <v n="ParameterType">"I_Error"</v>
+                      <v n="ParameterParent">{b69e2064-98c8-481c-b978-caa98a3507c9}</v>
+                      <v n="ParameterTransfer">"in"</v>
+                    </o>
+                    <o>
+                      <v n="ParameterName">"Error"</v>
+                      <v n="ParameterType">"T_Error"</v>
+                      <v n="ParameterParent">{b69e2064-98c8-481c-b978-caa98a3507c9}</v>
+                      <v n="ParameterTransfer">"out"</v>
+                    </o>
+                  </l>
+                  <v n="MethodParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
+                  <v n="MethodObjectGuid">{b69e2064-98c8-481c-b978-caa98a3507c9}</v>
+                  <v n="MethodStereotype">""</v>
+                  <v n="MethodParameterLength">20</v>
+                  <v n="MethodParameterTooLong">true</v>
+                </o>
                 <v>4a53bcce-f678-4e83-ab72-65d0d823be40</v>
                 <o>
                   <v n="MethodName">"SetTextQualifier"</v>
@@ -333,8 +358,8 @@
                   <v n="MethodReturnType">"REFERENCE TO FB_DiskErrorLogger"</v>
                   <l n="MethodParameter" t="ArrayList" cet="UMLMethodParameter">
                     <o>
-                      <v n="ParameterName">"sValue"</v>
-                      <v n="ParameterType">"STRING(1)"</v>
+                      <v n="ParameterName">"Value"</v>
+                      <v n="ParameterType">"FsCommon.T_Char"</v>
                       <v n="ParameterParent">{4a53bcce-f678-4e83-ab72-65d0d823be40}</v>
                       <v n="ParameterTransfer">"in"</v>
                     </o>
@@ -343,7 +368,7 @@
                   <v n="MethodObjectGuid">{4a53bcce-f678-4e83-ab72-65d0d823be40}</v>
                   <v n="MethodStereotype">""</v>
                   <v n="MethodParameterLength">20</v>
-                  <v n="MethodParameterTooLong">false</v>
+                  <v n="MethodParameterTooLong">true</v>
                 </o>
                 <v>46af97cb-5e2a-4b28-9443-628cfe706c09</v>
                 <o>
@@ -389,31 +414,6 @@
                   <v n="MethodParameterLength">20</v>
                   <v n="MethodParameterTooLong">false</v>
                 </o>
-                <v>b69e2064-98c8-481c-b978-caa98a3507c9</v>
-                <o>
-                  <v n="MethodName">"Invoke"</v>
-                  <v n="MethodBreakPointActive">false</v>
-                  <v n="MethodReturnType">""</v>
-                  <l n="MethodParameter" t="ArrayList" cet="UMLMethodParameter">
-                    <o>
-                      <v n="ParameterName">"ipError"</v>
-                      <v n="ParameterType">"I_Error"</v>
-                      <v n="ParameterParent">{b69e2064-98c8-481c-b978-caa98a3507c9}</v>
-                      <v n="ParameterTransfer">"in"</v>
-                    </o>
-                    <o>
-                      <v n="ParameterName">"Error"</v>
-                      <v n="ParameterType">"T_Error"</v>
-                      <v n="ParameterParent">{b69e2064-98c8-481c-b978-caa98a3507c9}</v>
-                      <v n="ParameterTransfer">"out"</v>
-                    </o>
-                  </l>
-                  <v n="MethodParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
-                  <v n="MethodObjectGuid">{b69e2064-98c8-481c-b978-caa98a3507c9}</v>
-                  <v n="MethodStereotype">""</v>
-                  <v n="MethodParameterLength">20</v>
-                  <v n="MethodParameterTooLong">true</v>
-                </o>
                 <v>17c94395-cd75-4e96-8b58-09831c5e5470</v>
                 <o>
                   <v n="MethodName">"Flush"</v>
@@ -439,6 +439,25 @@
                   <v n="MethodParameterLength">20</v>
                   <v n="MethodParameterTooLong">true</v>
                 </o>
+                <v>292266d7-2694-4237-bf99-d2815d4cffa6</v>
+                <o>
+                  <v n="MethodName">"SetDelimiter"</v>
+                  <v n="MethodBreakPointActive">false</v>
+                  <v n="MethodReturnType">"REFERENCE TO FB_DiskErrorLogger"</v>
+                  <l n="MethodParameter" t="ArrayList" cet="UMLMethodParameter">
+                    <o>
+                      <v n="ParameterName">"Value"</v>
+                      <v n="ParameterType">"FsCommon.T_Char"</v>
+                      <v n="ParameterParent">{292266d7-2694-4237-bf99-d2815d4cffa6}</v>
+                      <v n="ParameterTransfer">"in"</v>
+                    </o>
+                  </l>
+                  <v n="MethodParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
+                  <v n="MethodObjectGuid">{292266d7-2694-4237-bf99-d2815d4cffa6}</v>
+                  <v n="MethodStereotype">""</v>
+                  <v n="MethodParameterLength">20</v>
+                  <v n="MethodParameterTooLong">true</v>
+                </o>
                 <v>bbdb1f08-d9db-481b-80bd-c01583d62479</v>
                 <o>
                   <v n="MethodName">"FB_exit"</v>
@@ -458,25 +477,6 @@
                   <v n="MethodParameterLength">20</v>
                   <v n="MethodParameterTooLong">false</v>
                 </o>
-                <v>292266d7-2694-4237-bf99-d2815d4cffa6</v>
-                <o>
-                  <v n="MethodName">"SetDelimiter"</v>
-                  <v n="MethodBreakPointActive">false</v>
-                  <v n="MethodReturnType">"REFERENCE TO FB_DiskErrorLogger"</v>
-                  <l n="MethodParameter" t="ArrayList" cet="UMLMethodParameter">
-                    <o>
-                      <v n="ParameterName">"sValue"</v>
-                      <v n="ParameterType">"STRING(1)"</v>
-                      <v n="ParameterParent">{292266d7-2694-4237-bf99-d2815d4cffa6}</v>
-                      <v n="ParameterTransfer">"in"</v>
-                    </o>
-                  </l>
-                  <v n="MethodParent">{507f717d-266e-4932-8e77-d6ee42ae7cc4}</v>
-                  <v n="MethodObjectGuid">{292266d7-2694-4237-bf99-d2815d4cffa6}</v>
-                  <v n="MethodStereotype">""</v>
-                  <v n="MethodParameterLength">20</v>
-                  <v n="MethodParameterTooLong">false</v>
-                </o>
                 <v>8cc01dca-634e-4541-873d-f3820d6e5e86</v>
                 <o>
                   <v n="MethodName">"SetLineEnding"</v>
@@ -485,7 +485,7 @@
                   <l n="MethodParameter" t="ArrayList" cet="UMLMethodParameter">
                     <o>
                       <v n="ParameterName">"sValue"</v>
-                      <v n="ParameterType">"STRING(10)"</v>
+                      <v n="ParameterType">"STRING(2)"</v>
                       <v n="ParameterParent">{8cc01dca-634e-4541-873d-f3820d6e5e86}</v>
                       <v n="ParameterTransfer">"in"</v>
                     </o>
@@ -511,7 +511,7 @@
                 <v n="IsElementVisible">true</v>
                 <v n="TopPosition">200</v>
                 <v n="LeftPosition">510</v>
-                <v n="WidthValue">413</v>
+                <v n="WidthValue">407</v>
                 <v n="MinWidthValue">0</v>
                 <v n="Height">394</v>
                 <v n="MinHeight">0</v>
@@ -565,7 +565,7 @@
                   <v n="AttributeConstraint">""</v>
                   <v n="AttributeReturnType">"DWORD"</v>
                   <v n="AttributeParent">{0c5ea548-434b-462d-97fc-7eebeb2677dc}</v>
-                  <v n="AttributeObjectGuid">{6b67db45-e59a-477f-a4f3-c843408b40bb}</v>
+                  <v n="AttributeObjectGuid">{762b95b4-8dba-4632-8609-3da3722bad67}</v>
                   <v n="AttributeStereotype">""</v>
                 </o>
               </l>
@@ -751,7 +751,7 @@
               <v n="IsReferenceTo">false</v>
               <v n="StartElementArrowFlag" t="ArrowTypes">None</v>
               <v n="Priority">1</v>
-              <v n="GeneratesCode">false</v>
+              <v n="GeneratesCode">true</v>
               <v n="StartElementShowArrow">true</v>
               <v n="StartElementCardnality">""</v>
               <v n="EndElementCardnality">""</v>
@@ -759,8 +759,8 @@
               <v n="EndElementShowArrow">true</v>
               <v n="StartElementRoleName">""</v>
               <v n="EndElementRoleName">""</v>
-              <v n="UserCreated">false</v>
-              <v n="GeneratedByCode">true</v>
+              <v n="UserCreated">true</v>
+              <v n="GeneratedByCode">false</v>
               <v n="AllowRoutingOptimisation">false</v>
               <d n="flagTexts" t="Hashtable" />
               <v n="Position">-1L</v>
@@ -843,7 +843,7 @@
               <v n="IsReferenceTo">false</v>
               <v n="StartElementArrowFlag" t="ArrowTypes">None</v>
               <v n="Priority">1</v>
-              <v n="GeneratesCode">false</v>
+              <v n="GeneratesCode">true</v>
               <v n="StartElementShowArrow">true</v>
               <v n="StartElementCardnality">""</v>
               <v n="EndElementCardnality">""</v>
@@ -851,8 +851,8 @@
               <v n="EndElementShowArrow">true</v>
               <v n="StartElementRoleName">""</v>
               <v n="EndElementRoleName">""</v>
-              <v n="UserCreated">false</v>
-              <v n="GeneratedByCode">true</v>
+              <v n="UserCreated">true</v>
+              <v n="GeneratedByCode">false</v>
               <v n="AllowRoutingOptimisation">false</v>
               <d n="flagTexts" t="Hashtable" />
               <v n="Position">-1L</v>
@@ -881,7 +881,7 @@
           </o>
           <v n="IsFastStateDiagram">false</v>
           <l n="StereoTypeProfile" t="ArrayList" />
-          <v n="RelationRoleID">5</v>
+          <v n="RelationRoleID">7</v>
           <d n="PositionSerialization" t="Hashtable" />
         </o>
       </Data>

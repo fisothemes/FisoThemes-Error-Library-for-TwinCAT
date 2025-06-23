@@ -9,6 +9,11 @@ An error handling library for TwinCAT that provides a structured way to manage a
 - Create custom error descriptors and loggers.
 - Easily integrate with existing TwinCAT applications.
 
+## Dependencies
+
+FsError depends on the following libraries:
+- **[FsCommon](https://github.com/fisothemes/FisoThemes-Common-Library-for-TwinCAT) :** Provides common data structures and utilities.
+
 ## Class Diagram
 ### Error
 ![error class diagram](./assets/imgs/error-class-diagram.jpg)
@@ -228,6 +233,38 @@ END_VAR
 
 fbList.Insert(87126, stValue, Error => Err);
 IF Err.IsRaised THEN Err.LogMessage(fbToErrorBuffer); END_IF
+```
+
+### Preserving the Error
+
+If you need to run multiple operations and prevent downstream failures from masking the root cause, use `F_PreserveError`:
+
+```iecst
+METHOD ExecuteRecipe : BOOL
+VAR_IN_OUT
+    Recipe : T_Recipe;
+END_VAR
+VAR_OUTPUT
+    Error : T_Error;
+END_VAR
+
+// Configure dosing pump, fundamental step.
+// Any error here will be preserved in `Error`.
+fbDosingPump1.SetFlow(
+    Flow  := Recipe.Flow,
+    Error => F_PreserveError(Error)
+);
+
+// Start mixing process, retains original error context.
+fbMixer.Start(
+    Speed := Recipe.Speed,
+    Error => F_PreserveError(Error)
+);
+
+// ... additional steps
+
+// Result: If the pump fails, `Error` remains "Pump failed."
+//       Mixer errors do not overwrite the first failure.
 ```
 
 ## Developer Notes

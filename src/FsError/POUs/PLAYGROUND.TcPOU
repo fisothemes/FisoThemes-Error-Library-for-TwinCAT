@@ -27,7 +27,7 @@ IF bCreate THEN
 		E_AdsReturnCode.ERR_NOERROR);
 	END_IF
 
-IF bLog THEN Err.LogMessage(fbToDisk, bIsBusy => bLog, Error => DiskLogErr); END_IF
+IF bLog THEN Err.LogMessage(fbToDisk.SetTextQualifier(''), bIsBusy => bLog, Error => DiskLogErr); END_IF
 	
 IF DiskLogErr.IsRaised THEN DiskLogErr.LogMessage(fbWithAdsLogger); END_IF]]></ST>
     </Implementation>

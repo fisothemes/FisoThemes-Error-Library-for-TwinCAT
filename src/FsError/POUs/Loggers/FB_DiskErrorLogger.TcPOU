@@ -72,102 +72,114 @@ VAR_INPUT
 	ipError				: I_Error;
 END_VAR
 VAR
-	sDate, 
-	sTimeOfDay,
-	sErrorCode 			: STRING(24);
-	ErrorMessage		: T_ErrorMessage;
-	nCursor, nIndex 	: __UXINT;
+    sDate, sTimeOfDay 	: STRING(16);
+    sErrorCode 			: STRING(24);
+    ErrorMessage 		: T_ErrorMessage;
+    nCursor, nIndex 	: __UXINT;
+    MaxLen 				: __UXINT;
 END_VAR]]></Declaration>
       <Implementation>
-        <ST><![CDATA[IF ipError = 0 OR SIZEOF(T_ErrorMessage) < 2 THEN RETURN; END_IF
+        <ST><![CDATA[RETURN(ipError = 0 OR SIZEOF(T_ErrorMessage) < SIZEOF(THIS^._TextQualifier));
 
-// Convert Date, time of day and error code to string.
-sDate 		:= TO_STRING(ipError.Timestamp.GetDate());
-sTimeOfDay 	:= TO_STRING(ipError.Timestamp.GetTimeOfDay());
-sErrorCode	:= TO_STRING(ipError.Code);
+// Initial setup
+sDate 			:= TO_STRING(ipError.Timestamp.GetDate());
+sTimeOfDay 		:= TO_STRING(ipError.Timestamp.GetTimeOfDay());
+sErrorCode 		:= TO_STRING(ipError.Code);
+ErrorMessage 	:= ipError.Message;
+MaxLen 			:= SIZEOF(T_ErrorMessage) - SIZEOF(THIS^._TextQualifier);
 
-// Append timestamp start text qualifier.
-LoggedErrorMessage := THIS^._TextQualifier;
+// Append [ " + date + space + time + " ]
 
-// Append date.
-nIndex := 0;
-WHILE sDate[2 + nIndex] <> 0 DO
-	nCursor := nCursor + 1;
-	LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := sDate[2 + nIndex];
-	nIndex := nIndex + 1;
+IF THIS^._TextQualifier[0] <> 0 THEN // Append text qualifier.
+    LoggedErrorMessage := THIS^._TextQualifier;
+    nCursor := nCursor + 1; // Move cursor to next position.
+	END_IF
+
+nIndex := 2;
+WHILE sDate[nIndex] <> 0 AND nCursor < MaxLen DO // Append date.
+    LoggedErrorMessage[nCursor] := sDate[nIndex];
+	nCursor := nCursor + 1; // Move cursor to next position.
+	nIndex 	:= nIndex + 1;
 	END_WHILE
 
-// Append space bar.
-nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := 32;
+IF nCursor <= MaxLen THEN
+    LoggedErrorMessage[nCursor] := 32; // Space
+	nCursor := nCursor + 1; // Move cursor to next position.
+	END_IF
 
-// Append time of day.
-nIndex := 0;
-WHILE sTimeOfDay[4 + nIndex] <> 0 DO
+nIndex := 4;
+WHILE sTimeOfDay[nIndex] <> 0 AND nCursor < MaxLen DO
+    LoggedErrorMessage[nCursor] := sTimeOfDay[nIndex];
 	nCursor := nCursor + 1;
-	LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := sTimeOfDay[4 + nIndex];
-	nIndex := nIndex + 1;
-	END_WHILE
-	
-// Append timestamp end text qualifier.
-nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._TextQualifier[0];
-
-// Append delimiter.
-nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._Delimiter[0];
-
-// Append error code start text qualifier.
-nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._TextQualifier[0];
-
-// Append error code.
-nIndex := 0;
-WHILE sErrorCode[nIndex] <> 0 DO
-	nCursor := nCursor + 1;
-	LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := sErrorCode[nIndex];
-	nIndex := nIndex + 1;
-	END_WHILE
-	
-// Append error code end text qualifier.
-nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._TextQualifier[0];
-
-// Append delimiter.
-nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._Delimiter[0];
-
-// Append error code start text qualifier.
-nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._TextQualifier[0];
-
-// Append error message.
-ErrorMessage := ipError.Message;
-nIndex := 0;
-WHILE ErrorMessage[nIndex] <> 0 DO
-	nCursor := nCursor + 1;
-	LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := ErrorMessage[nIndex];
-	nIndex := nIndex + 1;
+	nIndex 	:= nIndex + 1;
 	END_WHILE
 
-// Append error code end text qualifier.
-nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._TextQualifier[0];
+IF THIS^._TextQualifier[0] <> 0 AND nCursor < MaxLen THEN
+    LoggedErrorMessage[nCursor] := THIS^._TextQualifier[0];
+	nCursor := nCursor + 1; // Move cursor to next position.
+	END_IF
 
-// Append line ending.
+// Append delimiter
+IF THIS^._Delimiter[0] <> 0 AND nCursor < MaxLen THEN
+    LoggedErrorMessage[nCursor] := THIS^._Delimiter[0];
+	nCursor := nCursor + 1; // Move cursor to next position.
+	END_IF
+
+// Append [ " + error code + " ]
+IF THIS^._TextQualifier[0] <> 0 AND nCursor < MaxLen THEN
+    LoggedErrorMessage[nCursor] := THIS^._TextQualifier[0];
+	nCursor := nCursor + 1; // Move cursor to next position.
+	END_IF
+
 nIndex := 0;
-WHILE THIS^._sLineEnding[nIndex] <> 0 DO
-	nCursor := nCursor + 1;
-	LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := THIS^._sLineEnding[nIndex];
-	nIndex := nIndex + 1;
+WHILE sErrorCode[nIndex] <> 0 AND nCursor < MaxLen DO
+    LoggedErrorMessage[nCursor] := sErrorCode[nIndex];
+	nCursor := nCursor + 1; // Move cursor to next position.
+    nIndex 	:= nIndex + 1;
 	END_WHILE
 
-// Terminate string.
-nCursor := nCursor + 1;
-LoggedErrorMessage[MIN(nCursor, SIZEOF(T_ErrorMessage))] := 0;
+IF THIS^._TextQualifier[0] <> 0 AND nCursor < maxLen THEN
+    LoggedErrorMessage[nCursor] := THIS^._TextQualifier[0];
+	nCursor := nCursor + 1; // Move cursor to next position.
+	END_IF
 
-// Return size of string.
-CreateLogEntry := SEL(nCursor <> 0, 0, nCursor - 1);]]></ST>
+// Append delimiter
+IF THIS^._Delimiter[0] <> 0 AND nCursor < MaxLen THEN
+    LoggedErrorMessage[nCursor] := THIS^._Delimiter[0];
+	nCursor := nCursor + 1; // Move cursor to next position.
+	END_IF
+
+// Append [ " + message (may be truncated) + " ]
+IF THIS^._TextQualifier[0] <> 0 AND nCursor < MaxLen THEN
+    LoggedErrorMessage[nCursor] := THIS^._TextQualifier[0];
+	nCursor := nCursor + 1;
+	END_IF
+
+nIndex := 0;
+WHILE ErrorMessage[nIndex] <> 0 AND nCursor < MaxLen DO
+    LoggedErrorMessage[nCursor] := ErrorMessage[nIndex];
+	nCursor := nCursor + 1; // Move cursor to next position.
+    nIndex 	:= nIndex + 1;
+	END_WHILE
+
+IF THIS^._TextQualifier[0] <> 0 AND nCursor < MaxLen THEN
+    LoggedErrorMessage[nCursor] := THIS^._TextQualifier[0];
+	nCursor := nCursor + 1; // Move cursor to next position.
+	END_IF
+
+// Append line ending (if it fits)
+nIndex := 0;
+WHILE THIS^._sLineEnding[nIndex] <> 0 AND nCursor < MaxLen DO
+    LoggedErrorMessage[nCursor] := THIS^._sLineEnding[nIndex];
+	nCursor := nCursor + 1; // Move cursor to next position.
+    nIndex 	:= nIndex + 1;
+	END_WHILE
+
+// Null terminate
+LoggedErrorMessage[MIN(nCursor, MaxLen)] := 0;
+
+// Return effective message length
+CreateLogEntry := nCursor - 1;]]></ST>
       </Implementation>
     </Method>
     <Property Name="Delimiter" Id="{a965be14-8980-098a-0686-facdbcda5b55}">

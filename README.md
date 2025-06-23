@@ -239,7 +239,7 @@ IF Err.IsRaised THEN Err.LogMessage(fbToErrorBuffer); END_IF
 
 If you need to run multiple operations and prevent downstream failures from masking the root cause, use `F_PreserveError`:
 
-```iecst
+```js
 METHOD ExecuteRecipe : BOOL
 VAR_IN_OUT
     Recipe : T_Recipe;

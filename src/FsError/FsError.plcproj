@@ -20,7 +20,7 @@
     <CombineIds>true</CombineIds>
     <Company>FisoThemes</Company>
     <Title>FsError</Title>
-    <ProjectVersion>0.2.0.1</ProjectVersion>
+    <ProjectVersion>0.3.0</ProjectVersion>
     <LibraryCategories>
       <LibraryCategory xmlns="">
         <Id>{dd9b7bed-6894-42d1-82c5-149be3e6aacd}</Id>
